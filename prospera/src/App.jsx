@@ -10,6 +10,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Footer from './components/Footer';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
+         <Route path="/*" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/contact" element={<Contact />} />
