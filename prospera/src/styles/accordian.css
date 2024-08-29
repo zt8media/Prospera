@@ -1,0 +1,54 @@
+  
+  /* Style the buttons that are used to open and close the accordion panel */
+  .accordion {
+    max-width: 600px;
+    margin: 2rem auto;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-family: 'Didact Gothic'
+  }
+  
+  .accordion-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+    align-items: center;
+    border-bottom: 1px solid black;
+  }
+
+  .main-accordian {
+    width: 70%;
+}
+
+  /* Style the accordion panel. Note: hidden by default */
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+  }
+  
+  .accordion-title,
+  .accordion-content {
+    padding: 1rem;
+  }
+  
+  /* .accordion-content {
+    background-color: rgba(107, 173, 230, 0.28);
+  } */
+  
+  @media screen and (max-width: 700px) {
+    body {
+      font-size: 18px;
+    }
+  
+    .accordion {
+      width: 90%;
+    }
+  }

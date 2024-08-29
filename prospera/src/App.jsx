@@ -1,40 +1,46 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Learn from './pages/Learn';
-import GamePage from './pages/GamePage';
+import BudgetingGamePage from './pages/BudgetingGamePage';
+import SavingGamePage from './pages/SavingGamePage';
+import InvestingGamePage from './pages/InvestingGamePage';
+import SpendingGamePage from './pages/SpendingGamePage';
 import Navbar from './components/NavBar';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminDashboard from './pages/Admin';
-// import Home from './pages/Home';
-
+import Footer from './components/Footer';
+import Home from './pages/Home';
 
 function App() {
-
   return (
-<>
 
 
-<BrowserRouter>
-  <Navbar />
 
-     <Routes>
-        {/* <Route path="/Home" element= {<Home />} /> */}
-        <Route path="/About" element={<About />} />
-        <Route path="/Learn" element={<Learn />} />
-        <Route path="/Contact" element={<Contact />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/game/:topic" element={<GamePage />} />
-        <Route path="/Admin" element={<AdminDashboard />} />
-      </Routes>
-
-    </BrowserRouter>
-
+    <>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+         <Route path="/*" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/learn" element={<Learn />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+           <Route path="/Register" element={<Register />} />
+            <Route path="/Admin" element={<AdminDashboard />} />
+          
+          {/* Individual game routes */}
+          <Route path="/game/budgeting" element={<BudgetingGamePage />} />
+          <Route path="/game/saving" element={<SavingGamePage />} />
+          <Route path="/game/investing" element={<InvestingGamePage />} />
+          <Route path="/game/spending-wisley" element={<SpendingGamePage />} />
+        </Routes>
+     <Footer/>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
