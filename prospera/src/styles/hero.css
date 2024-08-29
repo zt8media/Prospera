@@ -1,8 +1,12 @@
 .hero-video {
     z-index: -1;
+    width:100vw;
 }
 
 .overlay-content {
-    z-index: 1;
+    z-index: 3;
     font-size: 60px;
+    margin-top: -310px;
+    margin-left:60%;
+    line-height: 20px;
 }
