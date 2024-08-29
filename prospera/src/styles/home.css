@@ -1,0 +1,49 @@
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #87c38f;
+    border-top: 10px solid black;
+    border-bottom: 8px solid black;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+
+.main-paragraph {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    align-items: center;
+}
+
+.learn-more {
+    background-color: black;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 3%;
+    font-size: 20px;
+    padding: 25px;
+    font-family: 'Fredoka';
+    width: 300px;
+    margin-top: 20px;
+}
+
+.money {
+    width: 400px;
+    height: 200px;
+    padding: 50px;
+}
+
+.activities-cont {
+    display: flex;
+    justify-content: center;
+}
+
+.activities {
+    color: #87c38f;
+    font-family: 'Didact Gothic';
+    font-weight: bold;
+    font-size: 50px;
+}

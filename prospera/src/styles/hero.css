@@ -1,0 +1,8 @@
+.hero-video {
+    z-index: -1;
+}
+
+.overlay-content {
+    z-index: 1;
+    font-size: 60px;
+}
