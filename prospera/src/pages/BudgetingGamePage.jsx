@@ -26,14 +26,14 @@ const GameWrapper = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color:#76b07f;
+  background-color:#fff;
   font-family: 'Fredoka', sans-serif;
 `;
 
 const GameTitle = styled.h1`
   font-size: 5rem;
   margin-bottom: 20px;
-  color: #fff;
+  color: black;
 `;
 
 const EmbeddedGame = styled.div`
