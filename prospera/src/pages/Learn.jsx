@@ -199,7 +199,7 @@ const FactsList = styled.ul`
   margin: 0; /* Remove default margin */
   list-style-type: none; /* Remove bullet points */
   line-height: 2; /* Adjust line-height to make it more readable */
-  font-size: 15px;
+  font-size: 25px;
   text-align: left;
 
   li {
