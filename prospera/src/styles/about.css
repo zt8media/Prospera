@@ -1,0 +1,22 @@
+.about-us {
+    font-family: 'Fredoka';
+    font-size: 50px;
+    text-align: center;
+
+}
+
+.expectations {
+    background-color: #87c38f;
+    padding: 30px;
+}
+
+.expect-descript {
+    font-size: 20px;
+    font-family: 'Didact Gothic';
+    display: flex;
+    flex-direction: row; 
+}
+
+.expect-img {
+    height: 350px;
+}
