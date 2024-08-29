@@ -1,37 +1,38 @@
 import React from 'react';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Learn from './pages/Learn';
-import GamePage from './pages/GamePage';
+import BudgetingGamePage from './pages/BudgetingGamePage';
+import SavingGamePage from './pages/SavingGamePage';
+import InvestingGamePage from './pages/InvestingGamePage';
+import SpendingGamePage from './pages/SpendingGamePage';
 import Navbar from './components/NavBar';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
-import Home from './pages/Home';
-
+import Footer from './components/Footer';
 
 function App() {
-
   return (
-<>
 
-
-<BrowserRouter>
-  <Navbar />
-
-     <Routes>
-        <Route index element={<Home />}></Route>
-        <Route path="/About" element={<About />} />
-        <Route path="/Learn" element={<Learn />} />
-        <Route path="/Contact" element={<Contact />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/game/:topic" element={<GamePage />} />
-      </Routes>
-
-    </BrowserRouter>
-
+    <>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/about" element={<About />} />
+          <Route path="/learn" element={<Learn />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          
+          {/* Individual game routes */}
+          <Route path="/game/budgeting" element={<BudgetingGamePage />} />
+          <Route path="/game/saving" element={<SavingGamePage />} />
+          <Route path="/game/investing" element={<InvestingGamePage />} />
+          <Route path="/game/spending-wisley" element={<SpendingGamePage />} />
+        </Routes>
+     <Footer/>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

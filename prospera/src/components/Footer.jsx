@@ -6,14 +6,15 @@ import { faFacebook, faTwitter, faLinkedin, faGithub } from '@fortawesome/free-b
 import { faMapMarkerAlt, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const FooterContainer = styled.footer`
-  background: red;
+  background: #87c38f;
   color: #ffffff;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
-  width: 100%;
+
+  width: 100vw;
   text-align: left;
   padding: 55px 50px;
-
+  font-family: 'Fredoka', sans-serif;
   @media (max-width: 880px) {
     text-align: center;
     padding: 30px 20px;
@@ -23,11 +24,13 @@ const FooterContainer = styled.footer`
 const FooterLeft = styled.div`
   display: inline-block;
   vertical-align: top;
+  font-family: 'Fredoka', sans-serif;
   width: 40%;
 
   h3 {
     color: #ffffff;
-    font: normal 36px 'Open Sans', cursive;
+    font-family: 'Fredoka', sans-serif;
+    font-size:30px;
     margin: 0;
 
     span {
@@ -148,6 +151,7 @@ const FooterRight = styled.div`
 
     span {
       display: block;
+      font-family: 'Fredoka', sans-serif;
       color: black;
       font-size: 14px;
       font-weight: bold;
@@ -173,7 +177,7 @@ const FooterRight = styled.div`
       margin-bottom: 5px;
 
       &:hover {
-        background-color: black;
+        background-color:#87c38f;
         color: white;
       }
     }
@@ -193,20 +197,23 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterLeft>
-        <h3>For The Record</h3>
+        <h3>Prospera</h3>
         <p className="footer-links">
-          <Link to="/" className="link-1">Home</Link>
-          <Link to="/shop">Shop</Link>
-          <Link to="/contact">Contact</Link>
+        <Link to="/Home">Home</Link>
+      <Link to="/Learn">Learn</Link>
+      <Link to="/About">About Us</Link>
+      <Link to="/Contact">Contact</Link>
+      <Link to="/Login">Login</Link>
+
         
         </p>
-        <p className="footer-company-name">For The Record © 2023</p>
+        <p className="footer-company-name">Prospera © 2024</p>
       </FooterLeft>
 
       <FooterCenter>
         <div>
           <FontAwesomeIcon icon={faMapMarkerAlt} />
-          <p><span>123 Vinyl St.</span> Music City, USA</p>
+          <p><span>123 Money St.</span> Dollars City, USA</p>
         </div>
         <div>
           <FontAwesomeIcon icon={faPhone} />
@@ -214,13 +221,13 @@ const Footer = () => {
         </div>
         <div>
           <FontAwesomeIcon icon={faEnvelope} />
-          <p><a href="mailto:support@fortherecord.com">support@fortherecord.com</a></p>
+          <p><a href="mailto:support@prospera.com">support@prospera.com</a></p>
         </div>
       </FooterCenter>
 
       <FooterRight>
         <p className="footer-company-about">
-          <span>About For The Record</span>
+          <span>Prospera</span>
           For The Record is your one-stop shop for all things vinyl. Discover the rich, warm sound of vinyl records and find your soundtrack.
         </p>
         <div className="footer-icons">
