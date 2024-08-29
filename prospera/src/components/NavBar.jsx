@@ -3,8 +3,20 @@ import { Link } from 'react-router-dom';
 import '../styles/nav.css'
 import logo from '../media/user-solid.svg'
 
-const Navbar = ({ isAdmin }) => {
+const Navbar = () => {
+  const token = localStorage.getItem('token');
+  let userRole = null;
+
+  if (token) {
+    try {
+      userRole = JSON.parse(atob(token.split('.')[1])).role;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+    }
+  }
+
   return (
+    
     <nav>
       <div className='navlinks'>
       <li><Link to="/">Home</Link></li>
@@ -12,7 +24,7 @@ const Navbar = ({ isAdmin }) => {
       <li><Link to="/About">About Us</Link></li>
       <li><Link to="/Contact">Contact</Link></li>
       <li><Link to="/Login">Login</Link></li>
-      {isAdmin && <Link to="/admin">Admin Dashboard</Link>}
+      {userRole === 'admin' && <Link to="/Admin">Admin Dashboard</Link>}
       <img src={logo} alt='user-profile-logo' className='user-logo'></img>
       </div>
       

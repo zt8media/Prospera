@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "axios": "^1.7.5",
     "axois": "^0.0.1-security",
     "font-awesome": "^4.7.0",

@@ -9,11 +9,15 @@ import Navbar from './components/NavBar';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
+import Register from './pages/Register';
+import AdminDashboard from './pages/Admin';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 
 function App() {
   return (
+
+
 
     <>
       <BrowserRouter>
@@ -24,6 +28,8 @@ function App() {
           <Route path="/learn" element={<Learn />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+           <Route path="/Register" element={<Register />} />
+            <Route path="/Admin" element={<AdminDashboard />} />
           
           {/* Individual game routes */}
           <Route path="/game/budgeting" element={<BudgetingGamePage />} />

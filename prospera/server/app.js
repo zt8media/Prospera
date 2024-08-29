@@ -1,15 +1,22 @@
 const express = require('express');
 const jwt = require('jsonwebtoken'); // JSON Web Token
 const bcrypt = require('bcryptjs'); // Security for password hashing
+const cors = require('cors');
 require('dotenv').config();
 
 // Middleware
 const app = express();
 app.use(express.json());
+app.use(cors());
 const PORT = process.env.PORT || 8080;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// I will change this later when we establish our database this is filler
+if (!JWT_SECRET) {
+  console.error('FATAL ERROR: JWT_SECRET is not defined.');
+  process.exit(1);
+}
+
+// Temporary in-memory user storage (to be replaced with a database later)
 const users = [];
 
 // Middleware for authenticating and authorizing admin access
@@ -80,22 +87,39 @@ app.get('/admin/users', authenticateAdmin, (req, res) => {
   }
 });
 
-// Admin-only route to update user information
-app.put('/admin/users/:id', authenticateAdmin, (req, res) => {
+// Admin-only route to add a new user
+app.post('/admin/users', authenticateAdmin, async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 8);
+
+    const newUser = {
+      id: users.length + 1,
+      name,
+      email,
+      password: hashedPassword,
+      completion: 0, // Assume default completion status
+    };
+
+    users.push(newUser);
+    res.status(201).send(newUser);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+// Admin-only route to delete a user
+app.delete('/admin/users/:id', authenticateAdmin, (req, res) => {
   try {
     const userId = parseInt(req.params.id);
-    const user = users.find(u => u.id === userId);
+    const userIndex = users.findIndex(u => u.id === userId);
 
-    if (!user) {
+    if (userIndex === -1) {
       return res.status(404).send('User not found.');
     }
 
-    const { name, email, role } = req.body;
-    if (name) user.name = name;
-    if (email) user.email = email;
-    if (role && ['user', 'admin'].includes(role)) user.role = role;
-
-    res.send(user);
+    users.splice(userIndex, 1);
+    res.send('User deleted.');
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -111,17 +135,7 @@ app.get('/admin/analytics', authenticateAdmin, (req, res) => {
   }
 });
 
-// Admin-only route to reset users
-app.post('/admin/reset', authenticateAdmin, (req, res) => {
-  try {
-    users.forEach(user => user.completion = 0);
-    res.send('All users reset');
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
-
-// Route for users to update their completion status in frontend
+// Route for users to update their completion status in the frontend
 app.put('/user/completion', (req, res) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
