@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -70,51 +71,168 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div>
-      <h2>Admin Dashboard</h2>
+    <DashboardContainer>
+      <DashboardTitle>Admin Dashboard</DashboardTitle>
 
-      <h3>Add New User</h3>
-      <div>
-        <input
+      <SectionTitle>Add New User</SectionTitle>
+      <AddUserForm>
+        <Input
           type="text"
           placeholder="Name"
           value={newUser.name}
           onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
         />
-        <input
+        <Input
           type="email"
           placeholder="Email"
           value={newUser.email}
           onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
         />
-        <input
+        <Input
           type="password"
           placeholder="Password"
           value={newUser.password}
           onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
         />
-        <button onClick={handleAddUser}>Add User</button>
-      </div>
+        <AddButton onClick={handleAddUser}>Add User</AddButton>
+      </AddUserForm>
 
-      <h3>User Management</h3>
-      <ul>
+      <SectionTitle>User Management</SectionTitle>
+      <UserList>
         {users.map(user => (
-          <li key={user.id}>
+          <UserItem key={user.id}>
             {user.name} - {user.email}
-            <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
-          </li>
+            <DeleteButton onClick={() => handleDeleteUser(user.id)}>Delete</DeleteButton>
+          </UserItem>
         ))}
-      </ul>
+      </UserList>
 
-      <h3>Analytics</h3>
-      <button onClick={fetchAnalytics}>View Analytics</button>
-      <ul>
+      <SectionTitle>Analytics</SectionTitle>
+      <AnalyticsButton onClick={fetchAnalytics}>View Analytics</AnalyticsButton>
+      <AnalyticsList>
         {analytics.map(item => (
-          <li key={item.name}>{item.name}: {item.completion}% completed</li>
+          <AnalyticsItem key={item.name}>{item.name}: {item.completion}% completed</AnalyticsItem>
         ))}
-      </ul>
-    </div>
+      </AnalyticsList>
+    </DashboardContainer>
   );
 };
 
 export default AdminDashboard;
+
+// Styled Components
+const DashboardContainer = styled.div`
+  padding: 40px;
+  background-color: #f9f9f9;
+  font-family: 'Fredoka', sans-serif;
+`;
+
+const DashboardTitle = styled.h2`
+  font-size: 36px;
+  color: #76b07f;
+  text-align: center;
+  margin-bottom: 30px;
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+`;
+
+const AddUserForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin-bottom: 40px;
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: 'Fredoka', sans-serif;
+
+  &:focus {
+    border-color: #76b07f;
+    outline: none;
+  }
+`;
+
+const AddButton = styled.button`
+  padding: 12px 20px;
+  background-color: #76b07f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-family: 'Fredoka', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #5b9365;
+  }
+`;
+
+const UserList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin-bottom: 40px;
+`;
+
+const UserItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const DeleteButton = styled.button`
+  padding: 6px 12px;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #b71c1c;
+  }
+`;
+
+const AnalyticsButton = styled.button`
+  padding: 12px 20px;
+  background-color: #76b07f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-family: 'Fredoka', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #5b9365;
+  }
+`;
+
+const AnalyticsList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+const AnalyticsItem = styled.li`
+  padding: 10px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
