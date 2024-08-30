@@ -33,7 +33,7 @@
 
 .money {
     width: 400px;
-    height: 200px;
+    height: 300px;
     padding: 50px;
 }
 
@@ -47,4 +47,8 @@
     font-family: 'Didact Gothic';
     font-weight: bold;
     font-size: 50px;
+}
+
+.activity-pig {
+    width: 300px;
 }

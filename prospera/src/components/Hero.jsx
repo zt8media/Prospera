@@ -14,8 +14,8 @@ const HeroSection = () => {
       </video>
     </div>
     <div className="overlay-content">
-      <h1 style={{fontFamily:'Shrikhand'}}>Prospera</h1>
-      <p>Smart money starts here</p>
+      <h1 style={{fontFamily:'Shrikhand', color: 'white', textShadow: '1px 1px 2px rgb(5, 13, 0)'}}>Prospera</h1>
+      <p style={{textShadow: '1px 1px 2px rgb(5, 13, 0)', fontSize: '50px', textAlign: 'center'}}>Smart money starts here</p>
    </div>
    </>
   );

@@ -7,16 +7,16 @@ import Accordion from '../components/Accordian';
 export default function About() {
   const accordianData =  [
     {
-      title: 'How often do you introduce new collections?',
-      content: `We aim to release new collections seasonally, aligning with the changing seasons and customer preferences. As we continue to grow and gather valuable insights from our customers, we may explore more frequent releases to keep our offerings fresh and exciting.`
+      title: 'How can I support my child’s learning on this website?',
+      content: `Encourage your child to explore the website regularly and discuss what they learn with you. You can also use the resources provided on the site, such as family budgeting tools or savings challenges, to reinforce their learning at home.`
     },
     {
-      title: 'Do you offer international shipping?',
-      content: `Yes, we are pleased to offer international shipping to a wide range of countries. Our goal is to make shopping with us accessible worldwide. `
+      title: 'Is there a cost associated with using the website?',
+      content: `Our website offers a range of free resources. However, some advanced features or premium content may require a subscription or one-time fee. We aim to provide valuable content accessible to all users.`
     },
     {
-      title: 'Do gift cards expire?',
-      content: `Our gift cards do not expire and can be used at any time until the balance is depleted. However, we encourage you to use them soon after receiving them to enjoy the full benefit.`
+      title: 'How can I help my child apply what they learn in real life?',
+      content: `Discuss financial concepts with your child regularly and involve them in real-life financial decisions, such as budgeting for family expenses or planning savings goals. Practical experience reinforces what they learn online.`
     }
   ];
 
