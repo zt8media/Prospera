@@ -1,8 +1,39 @@
-const express = require('express');
-const jwt = require('jsonwebtoken'); // JSON Web Token
-const bcrypt = require('bcryptjs'); // Security for password hashing
-const cors = require('cors');
-require('dotenv').config();
+const express = require("express");
+const jwt = require("jsonwebtoken"); // JSON Web Token
+const bcrypt = require("bcryptjs"); // Security for password hashing
+const cors = require("cors");
+const mysql = require("mysql2");
+require("dotenv").config();
+
+// establish connection to databse
+const connection = mysql.createConnection({
+  host: "prospera-database.c3mmw4aum74p.us-east-2.rds.amazonaws.com",
+  user: "admin",
+  password: "passw0rd123",
+  database: "prospera-database",
+});
+
+// Connect to MySQL
+connection.connect((err) => {
+  if (err) throw err;
+  console.log("Connected to MySQL!");
+});
+
+// store user's data in contact table
+app.post("/form", (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const comment = req.body.comment;
+
+  const sql = `INSERT INTO contact_form(name, email, comment) VALUES(?, ?, ?)`;
+  connection.query(sql, [name, email, comment], function (err, data) {
+    if (err) {
+      console.log("error");
+    } else {
+      console.log("success");
+    }
+  });
+});
 
 // Middleware
 const app = express();
@@ -12,33 +43,30 @@ const PORT = process.env.PORT || 8080;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
-  console.error('FATAL ERROR: JWT_SECRET is not defined.');
+  console.error("FATAL ERROR: JWT_SECRET is not defined.");
   process.exit(1);
 }
-
-// Temporary in-memory user storage (to be replaced with a database later)
-const users = [];
 
 // Middleware for authenticating and authorizing admin access
 const authenticateAdmin = (req, res, next) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    const user = users.find(u => u.id === decoded.id && u.role === 'admin');
+    const user = users.find((u) => u.id === decoded.id && u.role === "admin");
     if (!user) {
-      return res.status(403).send('Access denied. Admins only.');
+      return res.status(403).send("Access denied. Admins only.");
     }
 
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).send('Authentication failed.');
+    res.status(401).send("Authentication failed.");
   }
 };
 
 // Register route for creating an admin user
-app.post('/register', async (req, res) => {
+app.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 8);
@@ -48,8 +76,8 @@ app.post('/register', async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: 'admin',
-      completion: 0  // Completion percentage or other metrics
+      role: "admin",
+      completion: 0, // Completion percentage or other metrics
     };
 
     users.push(newUser);
@@ -62,13 +90,13 @@ app.post('/register', async (req, res) => {
 });
 
 // Login route for admins
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = users.find(u => u.email === email);
+    const user = users.find((u) => u.email === email);
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).send('Invalid email or password.');
+      return res.status(400).send("Invalid email or password.");
     }
 
     const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET);
@@ -79,7 +107,7 @@ app.post('/login', async (req, res) => {
 });
 
 // Admin-only route to get all users
-app.get('/admin/users', authenticateAdmin, (req, res) => {
+app.get("/admin/users", authenticateAdmin, (req, res) => {
   try {
     res.send(users);
   } catch (error) {
@@ -88,7 +116,7 @@ app.get('/admin/users', authenticateAdmin, (req, res) => {
 });
 
 // Admin-only route to add a new user
-app.post('/admin/users', authenticateAdmin, async (req, res) => {
+app.post("/admin/users", authenticateAdmin, async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 8);
@@ -109,26 +137,29 @@ app.post('/admin/users', authenticateAdmin, async (req, res) => {
 });
 
 // Admin-only route to delete a user
-app.delete('/admin/users/:id', authenticateAdmin, (req, res) => {
+app.delete("/admin/users/:id", authenticateAdmin, (req, res) => {
   try {
     const userId = parseInt(req.params.id);
-    const userIndex = users.findIndex(u => u.id === userId);
+    const userIndex = users.findIndex((u) => u.id === userId);
 
     if (userIndex === -1) {
-      return res.status(404).send('User not found.');
+      return res.status(404).send("User not found.");
     }
 
     users.splice(userIndex, 1);
-    res.send('User deleted.');
+    res.send("User deleted.");
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
 
 // Admin-only route for data analytics
-app.get('/admin/analytics', authenticateAdmin, (req, res) => {
+app.get("/admin/analytics", authenticateAdmin, (req, res) => {
   try {
-    const analytics = users.map(user => ({ name: user.name, completion: user.completion }));
+    const analytics = users.map((user) => ({
+      name: user.name,
+      completion: user.completion,
+    }));
     res.send(analytics);
   } catch (error) {
     res.status(500).send(error.message);
@@ -136,22 +167,22 @@ app.get('/admin/analytics', authenticateAdmin, (req, res) => {
 });
 
 // Route for users to update their completion status in the frontend
-app.put('/user/completion', (req, res) => {
+app.put("/user/completion", (req, res) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, JWT_SECRET);
-    const user = users.find(u => u.id === decoded.id);
+    const user = users.find((u) => u.id === decoded.id);
 
     if (!user) {
-      return res.status(404).send('User not found.');
+      return res.status(404).send("User not found.");
     }
 
     const { completion } = req.body; // Completion value in the frontend
     if (completion !== undefined && completion >= 0 && completion <= 100) {
-      user.completion = completion;  // Update user's completion status
-      res.send({ message: 'Completion status updated', user });
+      user.completion = completion; // Update user's completion status
+      res.send({ message: "Completion status updated", user });
     } else {
-      res.status(400).send('Invalid completion value.');
+      res.status(400).send("Invalid completion value.");
     }
   } catch (error) {
     res.status(500).send(error.message);
@@ -159,14 +190,14 @@ app.put('/user/completion', (req, res) => {
 });
 
 // Route for users to get their profile details
-app.get('/user/profile', (req, res) => {
+app.get("/user/profile", (req, res) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, JWT_SECRET);
-    const user = users.find(u => u.id === decoded.id);
+    const user = users.find((u) => u.id === decoded.id);
 
     if (!user) {
-      return res.status(404).send('User not found.');
+      return res.status(404).send("User not found.");
     }
 
     res.send(user);
