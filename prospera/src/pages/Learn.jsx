@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import styled from 'styled-components';
 import ActivityPig from '../media/activity-pig.png';
 
+
 const topics = [
   { name: 'Saving Money', color: '#ffff' },
   { name: 'Investing', color: '#87c38f' },
