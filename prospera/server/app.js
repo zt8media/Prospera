@@ -7,10 +7,10 @@ require("dotenv").config();
 
 // establish connection to databse
 const connection = mysql.createConnection({
-  host: "prospera-database.c3mmw4aum74p.us-east-2.rds.amazonaws.com",
-  user: "admin",
-  password: "passw0rd123",
-  database: "prospera-database",
+  host: host,
+  user: user,
+  password: password,
+  database: database,
 });
 
 // Connect to MySQL
