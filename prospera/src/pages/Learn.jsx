@@ -65,12 +65,13 @@ const getRandomFact = (topic) => {
 };
 
 const Logo = styled.img`
-  width: 600px;
+  width: 450px;
   height: auto;
   position: absolute;
   top: -120px;
   left: -2px;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+   cursor: pointer;
 
   &:hover {
     transform: rotate(-15deg) scale(1.1);
@@ -88,25 +89,31 @@ const Logo = styled.img`
     left: 5px;
   }
 `;
-
 const PageTitle = styled.h2`
   display: flex;
+  padding-top: 65px;
   justify-content: center;
   font-family: 'Fredoka', sans-serif;
   font-size: 65px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+   cursor: pointer;
+
   &:hover {
     transform: rotate(3deg) scale(1.2);
     color: #76b07f;
   }
 `;
 
+
 const ActivityPageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw;
+  height: 100vh;  /* Ensures it fills the entire viewport height */
+  overflow: hidden;  /* Prevents scrolling */
   background-color: #ffff;
-  padding: 0;
+  padding-bottom: 150px;
   margin: 0;
   box-sizing: border-box;
   font-family: 'Fredoka', sans-serif;
@@ -182,12 +189,15 @@ const ModalContent = styled.div`
   background-color: #87c38f;
   color: black;
   padding: 120px 120px;
-  max-width: 90%;
+  padding-top:0;
+  max-width: 80%;
+  max-height: 65vh;  
   margin: auto;
   border-radius: 12px;
   text-align: center;
   font-family: 'Fredoka', sans-serif;
   border: solid 6px black;
+
 
   @media (max-width: 768px) {
     padding: 60px 15px;
@@ -198,8 +208,9 @@ const ModalContent = styled.div`
   }
 `;
 
+
 const ModalTitle = styled.h2`
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   font-family: 'Fredoka', sans-serif;
   font-size: 55px;
 
@@ -235,7 +246,13 @@ const ModalParagraph = styled.div`
 const ModalRow = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-direction:row;
+  align-items:center;
   margin-bottom: 20px;
+
+  width:85vw;
+  height:40vh;
+  margin-left:-120px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -253,18 +270,13 @@ const FactsList = styled.ul`
   list-style-type: none;
   line-height: 2;
   font-size: 25px;
-  text-align: left;
+  text-align: center;
 
   li {
     padding: 15px 0;
   }
-
-  li:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
-  li:nth-child(odd) {
-    background-color: #76b07f;
+&:hover {
+    cursor:pointer;
   }
 `;
 
@@ -334,59 +346,64 @@ const LearnPage = () => {
         </LargeSquare>
 
         <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          style={{
-            overlay: {
-              backgroundColor: 'rgba(0, 0, 0, 0.75)',
-            },
-            content: {
-              inset: '5%',
-              borderRadius: '10px',
-              maxWidth: '90%',
-              maxHeight: '90%',
-              margin: 'auto',
-              padding: '20px',
-            },
-          }}
-        >
-          {selectedTopic && (
-            <ModalContent>
-              <ModalTitle>{selectedTopic.name}</ModalTitle>
+  isOpen={modalIsOpen}
+  onRequestClose={closeModal}
+  style={{
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    },
+    content: {
+      top: '5%',  // Adjusted from 'inset' to specific top position
+      bottom: '5%',
+      left: '5%',
+      right: '5%',
+      borderRadius: '10px',
+      maxWidth: '90%',
+      maxHeight: '90%',  // Adjusted to provide more space for content
+      margin: 'auto',
+      padding: '20px',
+      overflow: 'hidden',  // Ensure no scrolling
+    },
+  }}
+>
+  {selectedTopic && (
+    <ModalContent>
+      <ModalTitle>{selectedTopic.name}</ModalTitle>
 
-              <ModalRow>
-                <ModalParagraph onClick={changeFact1}>
-                  <FactsList>
-                    <li>{fact1}</li>
-                  </FactsList>
-                </ModalParagraph>
+      <ModalRow>
+        <ModalParagraph onClick={changeFact1} style={{ height: '30vh' }}>
+          <FactsList>
+            <li>{fact1}</li>
+          </FactsList>
+        </ModalParagraph>
 
-                <ModalParagraph>
-                  {selectedTopic.name in videoUrls && (
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      src={videoUrls[selectedTopic.name]}
-                      title={`${selectedTopic.name} Video`}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  )}
-                </ModalParagraph>
-
-                <ModalParagraph onClick={changeFact3}>
-                  <FactsList>
-                    <li>{fact3}</li>
-                  </FactsList>
-                </ModalParagraph>
-              </ModalRow>
-
-              <Button onClick={playGame}>Play Game</Button>
-              <Button onClick={closeModal}>Close</Button>
-            </ModalContent>
+        <ModalParagraph style={{ height: '30vh' }}>
+          {selectedTopic.name in videoUrls && (
+            <iframe
+              width="100%"
+              height="100%"
+              src={videoUrls[selectedTopic.name]}
+              title={`${selectedTopic.name} Video`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           )}
-        </Modal>
+        </ModalParagraph>
+
+        <ModalParagraph onClick={changeFact3} style={{ height: '30vh' }}>
+          <FactsList>
+            <li>{fact3}</li>
+          </FactsList>
+        </ModalParagraph>
+      </ModalRow>
+
+      <Button onClick={playGame}>Play Game</Button>
+      <Button onClick={closeModal}>Close</Button>
+    </ModalContent>
+  )}
+</Modal>
+
       </ActivityPageWrapper>
     </>
   );

@@ -121,7 +121,7 @@ const FormField = styled.div`
 `;
 
 const FormInput = styled.input`
-  width: 100%;
+  width: 92%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;

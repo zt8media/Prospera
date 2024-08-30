@@ -140,7 +140,7 @@ const FormLabel = styled.label`
 `;
 
 const FormInput = styled.input`
-  width: 100%;
+  width: 93%;
   padding: 10px;
   border: 2px solid #ccc;
   border-radius: 5px;
