@@ -2,6 +2,34 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
 import ActivityPig from '../media/activity-pig.png';
+import HintLearnPg from '../media/hint-learn-pg.png';
+import LearnAboutMoneyAudio from '../media/learn-about-money.mp3';
+import LearnLogoAudio from '../media/learn-logo.mp3';
+
+
+
+
+
+const audio = new Audio(LearnAboutMoneyAudio);
+
+const playOrRestartAudio = () => {
+  if (!audio.paused) {
+    // If the audio is already playing, stop it
+    audio.pause();
+    audio.currentTime = 0; // Reset the audio to the beginning
+  }
+  // Play the audio from the beginning
+  audio.play();
+};
+const logoAudio = new Audio(LearnLogoAudio);
+
+const playOrRestartLogoAudio = () => {
+  if (!logoAudio.paused) {
+    logoAudio.pause();
+    logoAudio.currentTime = 0;
+  }
+  logoAudio.play();
+};
 
 
 const topics = [
@@ -89,6 +117,32 @@ const Logo = styled.img`
     left: 5px;
   }
 `;
+const ModalLogo = styled.img`
+  width: 300px;
+  height: auto;
+  position: absolute;
+  top: -20px;
+  left: 50px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  &:hover {
+    transform: rotate(-15deg) scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    width: 120px;
+    top: 10px;
+    left: 10px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100px;
+    top: 5px;
+    left: 5px;
+  }
+`;
+
 const PageTitle = styled.h2`
   display: flex;
   padding-top: 65px;
@@ -312,9 +366,12 @@ const LearnPage = () => {
   };
 
   const closeModal = () => {
+    audio.pause(); // Stop the audio if it's playing
+    audio.currentTime = 0; // Reset the audio to the beginning
     setModalIsOpen(false);
     setSelectedTopic(null);
   };
+  
 
   const changeFact1 = () => {
     setFact1(getRandomFact(selectedTopic.name));
@@ -331,7 +388,12 @@ const LearnPage = () => {
   return (
     <>
       <PageTitle>Explore The World of Finance </PageTitle>
-      <Logo src={ActivityPig} alt="Activity Pig Logo" />
+      <Logo 
+  src={ActivityPig} 
+  alt="Activity Pig Logo" 
+  onClick={playOrRestartLogoAudio} 
+/>
+
       <ActivityPageWrapper>
         <LargeSquare>
           {topics.map((topic, index) => (
@@ -353,21 +415,27 @@ const LearnPage = () => {
       backgroundColor: 'rgba(0, 0, 0, 0.75)',
     },
     content: {
-      top: '5%',  // Adjusted from 'inset' to specific top position
+      top: '5%',
       bottom: '5%',
       left: '5%',
       right: '5%',
       borderRadius: '10px',
       maxWidth: '90%',
-      maxHeight: '90%',  // Adjusted to provide more space for content
+      maxHeight: '90%',
       margin: 'auto',
       padding: '20px',
-      overflow: 'hidden',  // Ensure no scrolling
+      overflow: 'hidden',
     },
   }}
 >
   {selectedTopic && (
     <ModalContent>
+      <ModalLogo 
+  src={HintLearnPg} 
+  alt="Hint Learn Page Logo" 
+  onClick={playOrRestartAudio} 
+/>
+
       <ModalTitle>{selectedTopic.name}</ModalTitle>
 
       <ModalRow>
@@ -403,6 +471,7 @@ const LearnPage = () => {
     </ModalContent>
   )}
 </Modal>
+
 
       </ActivityPageWrapper>
     </>
