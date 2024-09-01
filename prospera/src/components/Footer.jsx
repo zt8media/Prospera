@@ -4,17 +4,18 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faMapMarkerAlt, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import logo from '../media/Navbar-pig.png'; // Assuming this is the logo you want to use
 
 const FooterContainer = styled.footer`
   background: #87c38f;
   color: #ffffff;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
-
   width: 100vw;
   text-align: left;
   padding: 55px 50px;
   font-family: 'Fredoka', sans-serif;
+
   @media (max-width: 880px) {
     text-align: center;
     padding: 30px 20px;
@@ -30,8 +31,16 @@ const FooterLeft = styled.div`
   h3 {
     color: #ffffff;
     font-family: 'Fredoka', sans-serif;
-    font-size:30px;
+    font-size: 30px;
     margin: 0;
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-right: 10px;
+      width: 40px;
+      height: 40px;
+    }
 
     span {
       color: lightseagreen;
@@ -197,15 +206,16 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterLeft>
-        <h3>Prospera</h3>
+        <h3>
+          <img src={logo} alt="Prospera Logo" />
+          Prospera
+        </h3>
         <p className="footer-links">
-        <Link to="/Home">Home</Link>
-      <Link to="/Learn">Learn</Link>
-      <Link to="/About">About Us</Link>
-      <Link to="/Contact">Contact</Link>
-      <Link to="/Login">Login</Link>
-
-        
+          <Link to="/Home">Home</Link>
+          <Link to="/Learn">Learn</Link>
+          <Link to="/About">About Us</Link>
+          <Link to="/Contact">Contact</Link>
+          <Link to="/Login">Login</Link>
         </p>
         <p className="footer-company-name">Prospera © 2024</p>
       </FooterLeft>
@@ -227,8 +237,8 @@ const Footer = () => {
 
       <FooterRight>
         <p className="footer-company-about">
-          <span>Prospera</span>
-          For The Record is your one-stop shop for all things vinyl. Discover the rich, warm sound of vinyl records and find your soundtrack.
+          <span>Smart Money Starts Here</span>
+          Prospera is your gateway to learning essential financial skills. We provide young learners with the tools they need to make smart money decisions for a brighter future.
         </p>
         <div className="footer-icons">
           <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} /></a>

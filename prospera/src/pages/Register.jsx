@@ -105,7 +105,7 @@ const RegisterContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 100px;
   background-color: #f9f9f9;
   font-family: 'Fredoka', sans-serif;
 `;

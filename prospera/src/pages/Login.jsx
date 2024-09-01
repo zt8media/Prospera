@@ -93,7 +93,7 @@ const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 140px;
   background-color: #f0f0f0;
   font-family: 'Fredoka', sans-serif;
 `;

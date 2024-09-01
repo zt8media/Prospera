@@ -93,84 +93,103 @@ const getRandomFact = (topic) => {
 };
 
 const Logo = styled.img`
-  width: 450px;
+  width: 400px;
   height: auto;
   position: absolute;
-  top: -120px;
-  left: -2px;
+  top: -45px;
+  left: 15%;
+  transform: translateX(-50%);
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-   cursor: pointer;
+  cursor: pointer;
 
   &:hover {
-    transform: rotate(-15deg) scale(1.1);
+    transform: translateX(-50%) rotate(-15deg) scale(1.1);
   }
 
   @media (max-width: 768px) {
-    width: 120px;
+    width: 250px;
     top: 10px;
-    left: 10px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   @media (max-width: 480px) {
-    width: 100px;
+    width: 200px;
     top: 5px;
-    left: 5px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 `;
+
 const ModalLogo = styled.img`
   width: 300px;
   height: auto;
   position: absolute;
   top: -20px;
-  left: 50px;
+  left: 20%;
+  transform: translateX(-50%);
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 
   &:hover {
-    transform: rotate(-15deg) scale(1.1);
+    transform: translateX(-50%) rotate(-15deg) scale(1.1);
   }
 
   @media (max-width: 768px) {
-    width: 120px;
-    top: 10px;
-    left: 10px;
+    width: 200px;
+    top: -25px;
   }
 
   @media (max-width: 480px) {
     width: 100px;
     top: 5px;
-    left: 5px;
   }
 `;
 
 const PageTitle = styled.h2`
   display: flex;
-  padding-top: 65px;
+  padding-top: 165px;
   justify-content: center;
   font-family: 'Fredoka', sans-serif;
   font-size: 65px;
+  text-align: center;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-   cursor: pointer;
+  cursor: pointer;
 
   &:hover {
     transform: rotate(3deg) scale(1.2);
     color: #76b07f;
   }
-`;
 
+  @media (max-width: 768px) {
+    font-size: 50px;
+    padding-top: 120px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 40px;
+    padding-top: 100px;
+  }
+`;
 
 const ActivityPageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;  /* Ensures it fills the entire viewport height */
-  overflow: hidden;  /* Prevents scrolling */
+  height: 100vh;
+  overflow: hidden;
   background-color: #ffff;
   padding-bottom: 150px;
   margin: 0;
   box-sizing: border-box;
   font-family: 'Fredoka', sans-serif;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+    padding-bottom: 50px;
+  }
 `;
 
 const LargeSquare = styled.div`
@@ -189,6 +208,13 @@ const LargeSquare = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+    gap: 5px;
   }
 `;
 
@@ -209,11 +235,6 @@ const TopicCard = styled.div`
     transform: scale(1.05);
   }
 
-  &:nth-child(1),
-  &:nth-child(2) {
-    margin-left: 15%;
-  }
-
   h2 {
     font-size: 4rem;
     color: black;
@@ -224,11 +245,7 @@ const TopicCard = styled.div`
     h2 {
       font-size: 2rem;
     }
-
-    &:nth-child(1),
-    &:nth-child(2) {
-      margin-left: 0;
-    }
+    height: 28vh;
   }
 
   @media (max-width: 480px) {
@@ -236,32 +253,39 @@ const TopicCard = styled.div`
     h2 {
       font-size: 1.5rem;
     }
+    height: 24vh;
   }
 `;
 
 const ModalContent = styled.div`
   background-color: #87c38f;
   color: black;
-  padding: 120px 120px;
-  padding-top:0;
+  padding: 150px 120px;
+  padding-top: 0;
   max-width: 80%;
-  max-height: 65vh;  
+  max-height: 65vh;
   margin: auto;
   border-radius: 12px;
   text-align: center;
   font-family: 'Fredoka', sans-serif;
   border: solid 6px black;
 
-
   @media (max-width: 768px) {
-    padding: 60px 15px;
+    padding: 40px 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 90%;
   }
 
   @media (max-width: 480px) {
-    padding: 40px 10px;
+    padding: 20px 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 90%;
   }
 `;
-
 
 const ModalTitle = styled.h2`
   margin-bottom: 50px;
@@ -274,6 +298,7 @@ const ModalTitle = styled.h2`
 
   @media (max-width: 480px) {
     font-size: 30px;
+    margin-bottom: 30px;
   }
 `;
 
@@ -300,22 +325,31 @@ const ModalParagraph = styled.div`
 const ModalRow = styled.div`
   display: flex;
   justify-content: space-between;
-  flex-direction:row;
-  align-items:center;
+  flex-direction: row;
+  align-items: center;
   margin-bottom: 20px;
-
-  width:85vw;
-  height:40vh;
-  margin-left:-120px;
+  width: 85vw;
+  height: 40vh;
+  margin-left: -120px;
 
   @media (max-width: 768px) {
     flex-direction: column;
+    margin-left: 0;
+    gap: 15px;
+    width: 100%;
+    height: auto;
+    padding: 0 10px;
   }
 
-  @media (max-width: 430px) {
+  @media (max-width: 480px) {
     margin-bottom: 10px;
+    gap: 10px;
+    width: 100%;
+    height: auto;
+    padding: 0 10px;
   }
 `;
+
 
 const FactsList = styled.ul`
   font-weight: 600;
@@ -329,8 +363,17 @@ const FactsList = styled.ul`
   li {
     padding: 15px 0;
   }
-&:hover {
-    cursor:pointer;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
   }
 `;
 
@@ -342,7 +385,7 @@ const Button = styled.button`
   border: solid 3px black;
   border-radius: 5px;
   font-weight: 500;
-  font-size: 35px;
+  font-size: 30px;
   font-family: 'Fredoka', sans-serif;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -350,7 +393,20 @@ const Button = styled.button`
   &:hover {
     background-color: #76b07f;
   }
+
+  @media (max-width: 768px) {
+    font-size: 25px;
+    padding: 8px 15px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+    padding: 6px 10px;
+    margin-top: 15px;
+  }
 `;
+
 
 const LearnPage = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -366,12 +422,11 @@ const LearnPage = () => {
   };
 
   const closeModal = () => {
-    audio.pause(); // Stop the audio if it's playing
-    audio.currentTime = 0; // Reset the audio to the beginning
+    audio.pause();
+    audio.currentTime = 0;
     setModalIsOpen(false);
     setSelectedTopic(null);
   };
-  
 
   const changeFact1 = () => {
     setFact1(getRandomFact(selectedTopic.name));
@@ -387,92 +442,79 @@ const LearnPage = () => {
 
   return (
     <>
-      <PageTitle>Explore The World of Finance </PageTitle>
-      <Logo 
-  src={ActivityPig} 
-  alt="Activity Pig Logo" 
-  onClick={playOrRestartLogoAudio} 
-/>
+      <PageTitle>Explore The World of Finance</PageTitle>
+      <Logo src={ActivityPig} alt="Activity Pig Logo" onClick={playOrRestartLogoAudio} />
 
       <ActivityPageWrapper>
         <LargeSquare>
           {topics.map((topic, index) => (
-            <TopicCard
-              key={index}
-              color={topic.color}
-              onClick={() => openModal(topic)}
-            >
+            <TopicCard key={index} color={topic.color} onClick={() => openModal(topic)}>
               <h2>{topic.name}</h2>
             </TopicCard>
           ))}
         </LargeSquare>
 
         <Modal
-  isOpen={modalIsOpen}
-  onRequestClose={closeModal}
-  style={{
-    overlay: {
-      backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    },
-    content: {
-      top: '5%',
-      bottom: '5%',
-      left: '5%',
-      right: '5%',
-      borderRadius: '10px',
-      maxWidth: '90%',
-      maxHeight: '90%',
-      margin: 'auto',
-      padding: '20px',
-      overflow: 'hidden',
-    },
-  }}
->
-  {selectedTopic && (
-    <ModalContent>
-      <ModalLogo 
-  src={HintLearnPg} 
-  alt="Hint Learn Page Logo" 
-  onClick={playOrRestartAudio} 
-/>
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={{
+            overlay: {
+              backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            },
+            content: {
+              top: '5%',
+              bottom: '5%',
+              left: '5%',
+              right: '5%',
+              borderRadius: '10px',
+              maxWidth: '90%',
+              maxHeight: '90%',
+              margin: 'auto',
+              padding: '20px',
+          
+              overflow: 'hidden',
+            },
+          }}
+        >
+          {selectedTopic && (
+            <ModalContent>
+              <ModalLogo src={HintLearnPg} alt="Hint Learn Page Logo" onClick={playOrRestartAudio} />
 
-      <ModalTitle>{selectedTopic.name}</ModalTitle>
+              <ModalTitle>{selectedTopic.name}</ModalTitle>
 
-      <ModalRow>
-        <ModalParagraph onClick={changeFact1} style={{ height: '30vh' }}>
-          <FactsList>
-            <li>{fact1}</li>
-          </FactsList>
-        </ModalParagraph>
+              <ModalRow>
+                <ModalParagraph onClick={changeFact1}>
+                  <FactsList>
+                    <li>{fact1}</li>
+                  </FactsList>
+                </ModalParagraph>
 
-        <ModalParagraph style={{ height: '30vh' }}>
-          {selectedTopic.name in videoUrls && (
-            <iframe
-              width="100%"
-              height="100%"
-              src={videoUrls[selectedTopic.name]}
-              title={`${selectedTopic.name} Video`}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+                <ModalParagraph>
+                  {selectedTopic.name in videoUrls && (
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={videoUrls[selectedTopic.name]}
+                      title={`${selectedTopic.name} Video`}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  )}
+                </ModalParagraph>
+
+                <ModalParagraph onClick={changeFact3}>
+                  <FactsList>
+                    <li>{fact3}</li>
+                  </FactsList>
+                </ModalParagraph>
+              </ModalRow>
+
+              <Button onClick={playGame}>Play Game</Button>
+              <Button onClick={closeModal}>Close</Button>
+            </ModalContent>
           )}
-        </ModalParagraph>
-
-        <ModalParagraph onClick={changeFact3} style={{ height: '30vh' }}>
-          <FactsList>
-            <li>{fact3}</li>
-          </FactsList>
-        </ModalParagraph>
-      </ModalRow>
-
-      <Button onClick={playGame}>Play Game</Button>
-      <Button onClick={closeModal}>Close</Button>
-    </ModalContent>
-  )}
-</Modal>
-
-
+        </Modal>
       </ActivityPageWrapper>
     </>
   );
