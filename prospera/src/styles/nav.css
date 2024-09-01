@@ -2,28 +2,117 @@ body, html {
     width: 100%;
     height: 100%;
     margin: 0;
+    padding: 0;
 }
 
-.navlinks a{
-    text-decoration: none;
-    font-family: 'Fredoka';
-    color: black;
-    font-weight: normal;
+nav.navbar {
+    position: absolute; /* Positioning the navbar at the top, but not fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
+    padding: 8px 30px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.nav-logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo {
+    width: 80px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.nav-title {
+    font-family: 'Fredoka', sans-serif;
+    color: #87c38f;
+    font-size: 35px;
+    font-weight: bold;
 }
 
 .navlinks {
-    background-color: rgb(135, 195, 143);
-  border-bottom: solid 1px black;
     display: flex;
-    justify-content: flex-end;
-    padding: 30px;
     list-style: none;
     gap: 30px;
-    font-size: 20px;
+    font-size: 25px;
+    background-color: transparent;
     text-decoration: none;
-    
+}
+
+.navlinks a {
+    text-decoration: none;
+    color: black; /* White text to contrast against the video */
+    font-family: 'Fredoka';
+    font-weight: normal;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+.navlinks a:hover {
+    color: #87c38f; /* Hover color */
 }
 
 .user-logo {
     width: 20px;
+}
+
+/* Mobile-specific styles */
+.hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: black;
+}
+
+.navlinks-mobile {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background-color: #87c38f ;
+    z-index: 1000;
+    padding: 20px;
+    list-style: none;
+    text-align: center;
+}
+
+.navlinks-mobile li {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .navlinks {
+        display: none; /* Hide default navlinks in mobile view */
+    }
+
+    .hamburger {
+        display: block; /* Show hamburger menu icon in mobile view */
+    }
+
+    .navlinks.navlinks-mobile {
+        display: flex; /* Ensure dropdown menu is visible when mobile menu is active */
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-logo {
+        width: 30px;
+    }
+
+    .nav-title {
+        font-size: 20px;
+    }
+
+    .navlinks-mobile li {
+        font-size: 18px;
+    }
 }
