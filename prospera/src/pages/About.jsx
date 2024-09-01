@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/about.css'
 import expectations from '../media/expect.jpeg'
 import Accordion from '../components/Accordian';
+import Hover from '../components/Hover.jsx'
 
 
 export default function About() {
@@ -25,7 +26,7 @@ export default function About() {
     <>
     <div>
       <h1 className='about-us'>About Us</h1>
-      <p>sjhfjfhsjfh</p>
+      <Hover/>
     </div>
     <div className='expectations'>
       <h1 className='about-us'>What you can expect</h1>

@@ -1,0 +1,16 @@
+.about-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.about-images {
+    height: 200px;
+    width: 200px;
+}
+
+.description {
+    font-family: 'Didact Gothic';
+    width: 800px;
+    font-size: 20px;
+    text-align: center;
+}
