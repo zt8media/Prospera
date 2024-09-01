@@ -1,10 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/about.css'
 import expectations from '../media/expect.jpeg'
 import Accordion from '../components/Accordian';
-import vission from '../media/mission2.jpeg'
-import values from '../media/vision.jpeg'
-import mission from '../media/mission.png'
+import Hover from '../components/Hover.jsx'
 
 
 export default function About() {
@@ -28,11 +26,7 @@ export default function About() {
     <>
     <div>
       <h1 className='about-us'>About Us</h1>
-      <div className='about-container'>
-      <img src={mission} className='about-images'></img>
-      <img src={values} className='about-images'></img>
-      <img src={vission} className='about-images'></img>
-      </div>
+      <Hover/>
     </div>
     <div className='expectations'>
       <h1 className='about-us'>What you can expect</h1>

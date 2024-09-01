@@ -20,13 +20,3 @@
 .expect-img {
     height: 350px;
 }
-
-.about-container {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.about-images {
-    height: 200px;
-    width: 200px;
-}
