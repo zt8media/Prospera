@@ -84,7 +84,7 @@ const gameRoutes = {
   'Budgeting': '/game/budgeting',
   'Saving Money': '/game/saving',
   'Investing': '/game/investing',
-  'Spending Wisely': '/game/spending',
+  'Spending Wisely': '/game/spending-wisley',
 };
 
 const getRandomFact = (topic) => {
@@ -235,6 +235,14 @@ const TopicCard = styled.div`
     transform: scale(1.05);
   }
 
+  &:nth-child(1) {
+    margin-left: 20%; /* Shift the first card to the right */
+  }
+
+  &:nth-child(2) {
+    margin-left: 10%; /* Slightly shift the second card */
+  }
+
   h2 {
     font-size: 4rem;
     color: black;
@@ -246,6 +254,12 @@ const TopicCard = styled.div`
       font-size: 2rem;
     }
     height: 28vh;
+    width: 100%; /* Ensure full width in mobile view */
+    margin-left: 0; /* Reset the shift for mobile */
+    &:nth-child(1),
+    &:nth-child(2) {
+      margin-left: 0; /* Remove the shifting in mobile view */
+    }
   }
 
   @media (max-width: 480px) {
@@ -256,6 +270,7 @@ const TopicCard = styled.div`
     height: 24vh;
   }
 `;
+
 
 const ModalContent = styled.div`
   background-color: #87c38f;
