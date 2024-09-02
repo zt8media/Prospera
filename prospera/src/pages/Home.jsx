@@ -5,7 +5,10 @@ import {Link} from "react-router-dom"
 import money from '../media/2.png'
 import growth from '../media/3.png'
 import Carousel from '../components/Carousel.jsx'
-import activitypig from '../media/activity-pig.png'
+import PigJokes from '../components/PigJokes.jsx'
+import PiggyChatbox from '../components/chatbot.jsx'
+
+
 
 export default function Home() {
   return (
@@ -24,7 +27,8 @@ export default function Home() {
        <h1 className='activities'>Activities</h1>
       </div>
       <Carousel/>
-      <img src={activitypig} alt='pig logo' className='activity-pig'></img>
+     <PigJokes/>
+     <PiggyChatbox/>
     </div>
   )
 }

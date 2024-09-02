@@ -275,7 +275,7 @@ const TopicCard = styled.div`
 const ModalContent = styled.div`
   background-color: #87c38f;
   color: black;
-  padding: 150px 120px;
+  padding: 110px 120px;
   padding-top: 0;
   max-width: 80%;
   max-height: 65vh;

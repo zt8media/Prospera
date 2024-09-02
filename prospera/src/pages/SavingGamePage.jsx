@@ -33,11 +33,12 @@ const BackButton = styled.button`
     font-size: 0.8rem;
   }
 `;
- 
+
 const GameWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom:50px;
   justify-content: center;
   height: 100vh;
   background-color: #fff;
@@ -55,16 +56,33 @@ const GameWrapper = styled.div`
 
 const GameTitle = styled.h1`
   font-size: 5rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-top:90px;
   color: black;
 
   @media (max-width: 768px) {
     font-size: 3rem;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
   }
 
   @media (max-width: 480px) {
     font-size: 2.5rem;
+    margin-bottom: 5px;
+  }
+`;
+
+const Description = styled.p`
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+  color: #555;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
     margin-bottom: 10px;
   }
 `;
@@ -93,22 +111,23 @@ const EmbeddedGame = styled.div`
   }
 `;
 
-const BudgetingGamePage = () => {
+const SavingGamePage = () => {
   const navigate = useNavigate();
   return (
     <GameWrapper>
       <BackButton onClick={() => navigate('/learn')}>Back</BackButton>
-      <GameTitle>Budgeting Game</GameTitle>
+      <GameTitle>Saving Game</GameTitle>
+      <Description>Learn about saving money and make wise choices while you play!</Description>
       <EmbeddedGame>
         <iframe
-          src="https://view.genially.com/66cdd7d804104caccaaff26c"
-          title="Budgeting Game"
+          src="https://view.genially.com/66d5cd1901919f3ddddf5489"
+          title="Saving Game"
           allowFullScreen
-          scrolling="no"
+          scrolling="yes"
         />
       </EmbeddedGame>
     </GameWrapper>
   );
 };
 
-export default BudgetingGamePage;
+export default SavingGamePage;

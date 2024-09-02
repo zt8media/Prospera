@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import AdminDashboard from './pages/Admin';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import PiggyChatbox from './components/chatbot.jsx';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/game/investing" element={<InvestingGamePage />} />
           <Route path="/game/spending-wisley" element={<SpendingGamePage />} />
         </Routes>
+   <PiggyChatbox/>
      <Footer/>
       </BrowserRouter>
     </>

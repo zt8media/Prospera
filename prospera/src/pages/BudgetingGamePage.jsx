@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
+
 const BackButton = styled.button`
   position: absolute;
   top: 110px;
