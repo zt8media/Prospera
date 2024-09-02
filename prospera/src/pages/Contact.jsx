@@ -13,7 +13,7 @@ const Contact = () => {
 
   // Function that sends a request to the form endpoint
   const send = () => {
-    axios.post('http://localhost:5173/Contact', {
+    axios.post('http://localhost:8080/contact', {
       name: name,
       email: email,
       comment: comment,
