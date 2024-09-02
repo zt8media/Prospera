@@ -4,6 +4,9 @@ const bcrypt = require("bcryptjs"); // Security for password hashing
 const cors = require("cors");
 const mysql = require("mysql2");
 require("dotenv").config();
+const app = express();
+app.use(express.json());
+app.use(cors());
 
 // establish connection to databse
 const connection = mysql.createConnection({
@@ -21,7 +24,7 @@ connection.connect((err) => {
 });
 
 // store user's data in contact table
-app.post("/form", (req, res) => {
+app.post("/contact", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const comment = req.body.comment;
@@ -37,9 +40,6 @@ app.post("/form", (req, res) => {
 });
 
 // Middleware
-const app = express();
-app.use(express.json());
-app.use(cors());
 const PORT = process.env.PORT || 8080;
 const JWT_SECRET = process.env.JWT_SECRET;
 
