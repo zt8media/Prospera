@@ -1,5 +1,3 @@
-
-
 .slider-container {
     width: 90%;
 }
@@ -15,8 +13,10 @@
 
 .sliderimg {
     transition: 0.5s all ease-in-out;
-    width: 325px;
-    height: 325px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding-left: 25px;
 }
 
 .sliderimg:hover {
@@ -27,18 +27,18 @@
 .slider-box {
     overflow: hidden;
     position: relative;
-    width: 325px;
-    height:325px;
+    width: 325px;  
+    height: 325px; 
     box-shadow: 2px 3px 10px rgba(152, 151, 151, 0.472);
+    margin: 0 25px; 
 }
 
-.slider-box .hoverbutton{
+.slider-box .hoverbutton {
     display: none;
     position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
     background-color: #87c38f;
     color: white;
     padding: 10px;
@@ -50,11 +50,10 @@
     font-family: sans-serif;
 }
 
-img:hover + .hoverbutton{
+.slider-box:hover .hoverbutton {
     display: block;
 }
 
 .hoverbutton:hover {
-    display: block;
     background-color: rgb(10, 10, 10);
 }

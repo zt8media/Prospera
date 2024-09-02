@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import Modal from 'react-modal';
 
+
 // Object mapping game types to their respective titles
 const games = {
   budgeting: 'Budgeting Game',

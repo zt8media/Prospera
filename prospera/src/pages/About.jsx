@@ -5,6 +5,7 @@ import Accordion from '../components/Accordian';
 import Hover from '../components/Hover.jsx'
 
 
+
 export default function About() {
   const accordianData =  [
     {

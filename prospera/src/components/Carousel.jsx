@@ -1,10 +1,12 @@
-import '../styles/carousel.css'
+import '../styles/carousel.css';
 import "react-multi-carousel/lib/styles.css";
-import React from 'react'
+import React from 'react';
 import Carousel from "react-multi-carousel";
-import {Link} from "react-router-dom"
-import money from '../media/2.png'
-import growth from '../media/3.png'
+import { Link } from "react-router-dom";
+import BudgetSlider from '../media/Budgeting-slider.png';
+import SavingSlider from '../media/Saving-slider.jpeg';
+import InvestSlider from '../media/Investing-slider.jpeg';
+import SpendingSlider from '../media/Spending-Slider.png';
 
 export default function Carouselslider() {
   const responsive = {
@@ -29,36 +31,36 @@ export default function Carouselslider() {
     <div className='slider'>
       <div className='slider-container'>
         <Carousel
-        draggable={false}
-        responsive={responsive}
-        ssr={true} // means to render carousel on server-side.
-        infinite={true}
-        autoPlaySpeed={1000}
-        keyBoardControl={true}
-        customTransition="all .5"
-        transitionDuration={500}
-        containerClass="carousel-container"
-        dotListClass="custom-dot-list-style"
-        itemClass="carousel-item-padding-40-px">
+          draggable={false}
+          responsive={responsive}
+          ssr={true} // means to render carousel on server-side.
+          infinite={true}
+          autoPlaySpeed={1000}
+          keyBoardControl={true}
+          customTransition="all .5"
+          transitionDuration={500}
+          containerClass="carousel-container"
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px slider-item" // Add this class for custom styling
+        >
           <div className='slider-box'>
-            <img src={money} alt="crochet rapunzel" className='sliderimg'/>
-            <Link to="/shop" className='hoverbutton'>Play Now</Link>
+            <img src={BudgetSlider} alt="Budgeting Game" className='sliderimg'/>
+            <Link to="/game/budgeting" className='hoverbutton'>Play Now</Link>
           </div>
           <div className='slider-box'>
-          <img src={growth} alt="crochet jasmine" className='sliderimg'/>
-          <Link to="/" className='hoverbutton'>Play Now</Link>
+            <img src={SavingSlider} alt="Saving Money Game" className='sliderimg'/>
+            <Link to="/game/saving" className='hoverbutton'>Play Now</Link>
           </div>
           <div className='slider-box'>
-            <img src={money} alt="crochet rapunzel" className='sliderimg'/>
-            <Link to="/shop" className='hoverbutton'>Play Now</Link>
+            <img src={SpendingSlider} alt="Spending Wisely Game" className='sliderimg'/>
+            <Link to="/game/spending-wisley" className='hoverbutton'>Play Now</Link>
           </div>
           <div className='slider-box'>
-          <img src={growth} alt="crochet jasmine" className='sliderimg'/>
-          <Link to="/" className='hoverbutton'>Play Now</Link>
+            <img src={InvestSlider} alt="Investing Game" className='sliderimg'/>
+            <Link to="/game/investing" className='hoverbutton'>Play Now</Link>
           </div>
-          
         </Carousel>
       </div>
     </div>
-  )
+  );
 }

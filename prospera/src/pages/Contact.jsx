@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios'; // Make sure to import axios
 import ContactImage from '../media/contact-img.png';
 
+
 const Contact = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
