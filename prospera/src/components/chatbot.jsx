@@ -8,7 +8,7 @@ const ChatboxWrapper = styled.div`
   position: fixed;
   bottom: 90px; /* Adjusted to be above the pig icon */
   right: 20px;
-  width: 300px;
+  width: 350px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: white;
@@ -67,8 +67,8 @@ const bounce = keyframes`
 const PiggyIcon = styled.img`
   position: fixed;
   bottom: 50px;
-  right: 20px;
-  width: 60px;
+  right: 2px;
+  width:100px;
   height: auto;
   cursor: pointer;
 
