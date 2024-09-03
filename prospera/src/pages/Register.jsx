@@ -1,23 +1,44 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+ // Function that sends a request to the register endpoint
+ const send = () => {
+  axios.post('http://localhost:8080/register', {
+    name: name,
+    email: email,
+    password: password,
+  })
+  .then(function (response) {
+    console.log(response);
+    setSubmitted(true);
+    setName('');
+    setEmail('');
+    setPassword('');
+    navigate('/login');
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+};
+
+
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       newErrors.email = 'Enter Valid Email';
     }
-    if (formData.password.length < 12) {
-      newErrors.password = 'Password must be at least 12 characters long';
+    if (password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters long';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -26,29 +47,11 @@ const RegisterPage = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
-    try {
-      const response = await fetch('http://localhost:8080/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        navigate('/login');
-      } else {
-        const data = await response.json();
-        setErrors({ server: data.message || 'Registration failed.' });
-      }
-    } catch (error) {
-      console.error('Error registering:', error);
-      setErrors({ server: 'Error registering. Please try again later.' });
-    }
+    send();
+    navigate('/login');
+    
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   return (
     <RegisterContainer>
@@ -60,8 +63,8 @@ const RegisterPage = () => {
             type="text"
             id="name"
             name="name"
-            value={formData.name}
-            onChange={handleChange}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <ErrorMessage>{errors.name}</ErrorMessage>
         </FormField>
@@ -71,8 +74,8 @@ const RegisterPage = () => {
             type="email"
             id="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <ErrorMessage>{errors.email}</ErrorMessage>
         </FormField>
@@ -82,8 +85,8 @@ const RegisterPage = () => {
             type="password"
             id="password"
             name="password"
-            value={formData.password}
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <ErrorMessage>{errors.password}</ErrorMessage>
         </FormField>

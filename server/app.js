@@ -39,6 +39,22 @@ app.post("/contact", (req, res) => {
   });
 });
 
+// store user's data in register table
+app.post("/register", (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const sql = `INSERT INTO register(name, email, password) VALUES(?, ?, ?)`;
+  connection.query(sql, [name, email, password], function (err, data) {
+    if (err) {
+      console.log("error");
+    } else {
+      console.log("success");
+    }
+  });
+});
+
 // Middleware
 const PORT = process.env.PORT || 8080;
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -65,30 +81,6 @@ const authenticateAdmin = (req, res, next) => {
     res.status(401).send("Authentication failed.");
   }
 };
-
-// Register route for creating an admin user
-app.post("/register", async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 8);
-
-    const newUser = {
-      id: users.length + 1,
-      name,
-      email,
-      password: hashedPassword,
-      role: "admin",
-      completion: 0, // Completion percentage or other metrics
-    };
-
-    users.push(newUser);
-
-    const token = jwt.sign({ id: newUser.id, role: newUser.role }, JWT_SECRET);
-    res.status(201).send({ newUser, token });
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
 
 // Login route for admins
 app.post("/login", async (req, res) => {
