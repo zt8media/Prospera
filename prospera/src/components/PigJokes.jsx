@@ -9,9 +9,9 @@ const PigJokesSection = styled.section`
   background-color: #87c38f;
   padding: 50px 0;
   text-align: center;
-  margin-bottom: 40px;
-  border-top: 10px solid black; /* Add border to top */
-  border-bottom: 10px solid black; /* Add border to bottom */
+  margin-bottom: 0px;
+  border-top: 8px solid black; /* Add border to top */
+  border-bottom: 20px solid black; /* Add border to bottom */
 `;
 
 // Title for the Pig Jokes section

@@ -1,14 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import Modal from 'react-modal';
-import styled from 'styled-components';
 import ActivityPig from '../media/activity-pig.png';
+import TipImage from '../media/tip.png';
+import JarImage from '../media/jar.png';
+import PigImage from '../media/1.png';
+import ChaChingSound from '../media/cha-ching-7053.mp3';
 import HintLearnPg from '../media/hint-learn-pg.png';
 import LearnAboutMoneyAudio from '../media/learn-about-money.mp3';
 import LearnLogoAudio from '../media/learn-logo.mp3';
+import SpendingPig from '../media/Spending-pig.png';
+import InvestingPig from '../media/Investing-pig.png';
+import BudgetingPig from '../media/Budgeting-pig.png';
+import SavingPig from '../media/Saving-pig.png';
 
 
 
 
+const bounce = keyframes`
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+`;
 
 const audio = new Audio(LearnAboutMoneyAudio);
 
@@ -31,6 +50,17 @@ const playOrRestartLogoAudio = () => {
   logoAudio.play();
 };
 
+
+const chachingAudio = new Audio(ChaChingSound);
+
+const playChaChing = () => {
+  chachingAudio.play();
+  
+  setTimeout(() => {
+    chachingAudio.pause();
+    chachingAudio.currentTime = 0;  // Reset to the beginning in case it needs to be played again
+  }, 2000);
+};
 
 const topics = [
   { name: 'Saving Money', color: '#ffff' },
@@ -122,11 +152,11 @@ const Logo = styled.img`
 `;
 
 const ModalLogo = styled.img`
-  width: 300px;
+  width: 400px;
   height: auto;
   position: absolute;
-  top: -20px;
-  left: 20%;
+  bottom: -90px;
+  left: 18%;
   transform: translateX(-50%);
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
@@ -184,13 +214,9 @@ const ActivityPageWrapper = styled.div`
   margin: 0;
   box-sizing: border-box;
   font-family: 'Fredoka', sans-serif;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    height: auto;
-    padding-bottom: 50px;
-  }
+  flex-direction: column;
 `;
+
 
 const LargeSquare = styled.div`
   display: grid;
@@ -235,6 +261,10 @@ const TopicCard = styled.div`
     transform: scale(1.05);
   }
 
+  &:hover img {
+    animation: ${bounce} 1s ease-in-out;
+  }
+
   &:nth-child(1) {
     margin-left: 20%; /* Shift the first card to the right */
   }
@@ -271,19 +301,25 @@ const TopicCard = styled.div`
   }
 `;
 
+const TopicLogo = styled.img`
+  width: 250px;
+  height: 250px;
+  margin-bottom: 10px;
+`;
 
 const ModalContent = styled.div`
   background-color: #87c38f;
   color: black;
-  padding: 110px 120px;
+  padding: 145px 120px;
   padding-top: 0;
-  max-width: 80%;
+  max-width: 82%;
   max-height: 65vh;
   margin: auto;
   border-radius: 12px;
   text-align: center;
   font-family: 'Fredoka', sans-serif;
-  border: solid 6px black;
+  border: solid 3px black;
+  box-shadow: -1px 3px 29px 49px rgba(0,0,0,0.2);
 
   @media (max-width: 768px) {
     padding: 40px 20px;
@@ -305,7 +341,8 @@ const ModalContent = styled.div`
 const ModalTitle = styled.h2`
   margin-bottom: 50px;
   font-family: 'Fredoka', sans-serif;
-  font-size: 55px;
+  font-size: 70px;
+text-shadow: 4px 1px 0px #CECECE;  
 
   @media (max-width: 768px) {
     font-size: 40px;
@@ -318,24 +355,30 @@ const ModalTitle = styled.h2`
 `;
 
 const ModalParagraph = styled.div`
-  background-color: #f0f0f0;
+  background-color: white;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 10px;
-  margin: 10px;
-  border: solid 4px black;
+  padding: 5px;
+  margin: 15px;
+  border: solid 2px black;
   flex: 1;
   font-family: 'Fredoka', sans-serif;
-  height: 35vh;
+  height: 40vh;
+  width: auto;
+  max-width: 45%;  /* Adjust this value as needed for the layout */
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
-    height: 25vh;
+    height: 40vh;
+    max-width: 100%;  /* Full width on smaller screens */
   }
 
   @media (max-width: 480px) {
     height: auto;
+    max-width: 100%;
   }
 `;
+
 
 const ModalRow = styled.div`
   display: flex;
@@ -345,7 +388,8 @@ const ModalRow = styled.div`
   margin-bottom: 20px;
   width: 85vw;
   height: 40vh;
-  margin-left: -120px;
+
+  margin-left: -70px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -364,41 +408,63 @@ const ModalRow = styled.div`
     padding: 0 10px;
   }
 `;
+const TipJarWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 
+`;
 
-const FactsList = styled.ul`
-  font-weight: 600;
-  padding-left: 0;
-  margin: 0;
-  list-style-type: none;
-  line-height: 2;
-  font-size: 25px;
-  text-align: center;
-
-  li {
-    padding: 15px 0;
-  }
-
+const TipImageStyled = styled.img`
+  width: 100%;
+  max-width: 300px;
+  transition: transform 0.2s;
+  
   &:hover {
-    cursor: pointer;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 20px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 18px;
+    transform: scale(1.1);
   }
 `;
 
+const JarImageStyled = styled.img`
+  width: 100%;
+  margin-left:-100px;
+  max-width: 500px;
+`;
+
+const FactText = styled.div`
+  position: absolute;
+  bottom:25%;
+  left: 42%;
+  transform: translateX(-50%);
+  width:45%;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: black;
+  text-align: center;
+  font-size: 25px;
+  border-radius: 8px;
+`;
+
+const TipMessage = styled.div`
+  margin-top: -50px;
+  color: white;
+  font-size: 15px;
+  text-align: center;
+  background-color:black;
+  border-radius:10px;
+  padding:5px;
+  border: solid 1px black;
+`;
+
 const Button = styled.button`
-  margin: 10px;
+  margin: 15px;
   padding: 10px 20px;
   background-color: white;
   color: black;
   border: solid 3px black;
-  border-radius: 5px;
+  border-radius: 10px;
   font-weight: 500;
   font-size: 30px;
   font-family: 'Fredoka', sans-serif;
@@ -422,17 +488,65 @@ const Button = styled.button`
   }
 `;
 
+const ToggleSwitch = styled.div`
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  label {
+    margin-left: 10px;
+    font-size: rem;
+  }
+`;
+
+const Switch = styled.input`
+  position: relative;
+  width: 50px;
+  height: 25px;
+  appearance: none;
+  background: #ccc;
+  outline: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.4s;
+
+  &:checked {
+    background: black;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    top: 2.5px;
+    left: 5px;
+    background: white;
+    transition: 0.4s;
+  }
+
+  &:checked:before {
+    left: 25px;
+  }
+`;
+
+
 
 const LearnPage = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState(null);
-  const [fact1, setFact1] = useState('');
   const [fact3, setFact3] = useState('');
+  const [completed, setCompleted] = useState(false); // Define the 'completed' state
+  
+  const toggleCompletion = () => {
+    setCompleted((prevCompleted) => !prevCompleted);
+  };
 
   const openModal = (topic) => {
     setSelectedTopic(topic);
-    setFact1(getRandomFact(topic.name));
-    setFact3(getRandomFact(topic.name));
+    setFact3(getRandomFact(topic.name));  // Initialize with a random fact
     setModalIsOpen(true);
   };
 
@@ -443,16 +557,17 @@ const LearnPage = () => {
     setSelectedTopic(null);
   };
 
-  const changeFact1 = () => {
-    setFact1(getRandomFact(selectedTopic.name));
-  };
-
   const changeFact3 = () => {
-    setFact3(getRandomFact(selectedTopic.name));
+    if (selectedTopic) {
+      const newFact = getRandomFact(selectedTopic.name);
+      setFact3(newFact);
+    }
   };
 
   const playGame = () => {
-    window.location.href = gameRoutes[selectedTopic.name];
+    if (selectedTopic) {
+      window.location.href = gameRoutes[selectedTopic.name];
+    }
   };
 
   return (
@@ -462,11 +577,23 @@ const LearnPage = () => {
 
       <ActivityPageWrapper>
         <LargeSquare>
-          {topics.map((topic, index) => (
-            <TopicCard key={index} color={topic.color} onClick={() => openModal(topic)}>
-              <h2>{topic.name}</h2>
-            </TopicCard>
-          ))}
+        {topics.map((topic, index) => (
+    <TopicCard key={index} color={topic.color} onClick={() => openModal(topic)}>
+      <TopicLogo
+        src={
+          topic.name === 'Spending Wisely'
+            ? SpendingPig
+            : topic.name === 'Investing'
+            ? InvestingPig
+            : topic.name === 'Budgeting'
+            ? BudgetingPig
+            : SavingPig
+        }
+        alt={`${topic.name} Logo`}
+      />
+      <h2>{topic.name}</h2>
+    </TopicCard>
+  ))}
         </LargeSquare>
 
         <Modal
@@ -482,11 +609,12 @@ const LearnPage = () => {
               left: '5%',
               right: '5%',
               borderRadius: '10px',
-              maxWidth: '90%',
-              maxHeight: '90%',
+              maxWidth: '87%',
+              maxHeight: '80%',
               margin: 'auto',
               padding: '20px',
-          
+              backgroundColor: 'transparent',
+              border: 'none',
               overflow: 'hidden',
             },
           }}
@@ -498,12 +626,16 @@ const LearnPage = () => {
               <ModalTitle>{selectedTopic.name}</ModalTitle>
 
               <ModalRow>
-                <ModalParagraph onClick={changeFact1}>
-                  <FactsList>
-                    <li>{fact1}</li>
-                  </FactsList>
-                </ModalParagraph>
+                {/* Box 1 - Tip Image */}
+                <TipJarWrapper onClick={() => {
+                  playChaChing();  // Play the cha-ching sound
+                  changeFact3();   // Change the fact in the jar
+                }}>
+                  <TipImageStyled src={TipImage} alt="Tip Image" />
+                  <TipMessage>Click the coin to add a tip to the tip jar...</TipMessage>
+                </TipJarWrapper>
 
+                {/* Box 2 - YouTube Video */}
                 <ModalParagraph>
                   {selectedTopic.name in videoUrls && (
                     <iframe
@@ -518,12 +650,21 @@ const LearnPage = () => {
                   )}
                 </ModalParagraph>
 
-                <ModalParagraph onClick={changeFact3}>
-                  <FactsList>
-                    <li>{fact3}</li>
-                  </FactsList>
-                </ModalParagraph>
+                {/* Box 3 - Jar Image with Fact */}
+                <TipJarWrapper>
+                  <JarImageStyled src={JarImage} alt="Jar Image" />
+                  <FactText>{fact3}</FactText>
+                </TipJarWrapper>
               </ModalRow>
+              
+              <ToggleSwitch>
+                <Switch
+                  type="checkbox"
+                  checked={completed}
+                  onChange={toggleCompletion}
+                />
+                <label>{completed ? 'Completed' : 'Did Not Complete'}</label>
+              </ToggleSwitch>
 
               <Button onClick={playGame}>Play Game</Button>
               <Button onClick={closeModal}>Close</Button>
