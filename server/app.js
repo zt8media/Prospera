@@ -16,6 +16,19 @@ const connection = mysql.createConnection({
   port: process.env.port,
 });
 
+
+
+// Serve static files from the dist directory
+app.use(express.static(path.join(__dirname, '../dist')));
+
+
+
+// Serve the frontend app for all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
+
 // Connect to MySQL
 connection.connect((err) => {
   if (err) throw err;
