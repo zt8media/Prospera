@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import Home from "../src/pages/Home.jsx"
 import React from "react";
+import '@testing-library/jest-dom';
+
 
 test("Always true test", () => {
     expect(true).toBe.true;
