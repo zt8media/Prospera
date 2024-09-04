@@ -1,0 +1,15 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd prospera/prospera
+        - npm install
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    # The files and folders that need to be packaged up during the build phase
+    baseDirectory: /dist
+    files:
+      - '**/*'
