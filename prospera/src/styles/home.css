@@ -53,3 +53,51 @@
 .activity-pig {
     width: 300px;
 }
+
+.first-intro {
+    font-size: 23px;
+    font-family: 'Didact Gothic';
+}
+
+.home-title {
+    font-size: 50px;
+    font-family: 'Didact Gothic';
+}
+
+@media (max-width:600px) {
+    /* mobile phone */
+    .main-container {
+        margin-top: 0;
+    }
+
+    .money {
+        display: none;
+    }
+
+    .home-title {
+        font-size: 30px;
+        margin-top: 0;
+    }
+
+    .first-intro {
+        font-size: 15px;
+        padding: 10px;
+    }
+}
+
+@media (min-width:601px) and (max-width:992px) {
+
+    .money {
+        width: 200px;
+        height: 200px;
+    }
+
+    .home-title {
+        font-size: 50px;
+        margin-top: 0;
+    }
+
+    .first-intro {
+        font-size: 20px;
+    }
+}

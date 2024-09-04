@@ -2,13 +2,13 @@
     font-family: 'Fredoka';
     font-size: 50px;
     text-align: center;
-    padding-top: 100px;
+    padding-top: 50px;
 
 }
 
 .expectations {
     background-color: #87c38f;
-    padding: 30px;
+    padding: 20px;
 }
 
 .expect-descript {
@@ -20,4 +20,29 @@
 
 .expect-img {
     height: 350px;
+}
+
+@media (max-width:600px) {
+    /* mobile phone */
+    
+    .expect-img {
+        display: none;
+    }
+
+    .about-us {
+        font-size: 40px;
+        padding-top: 10px;
+    }
+}
+
+@media (min-width:601px) and (max-width:992px) {
+    .expect-img {
+        width: 300px;
+        height: 200px;
+    }
+
+    .about-us {
+        font-size: 40px;
+        padding-top: 150px;
+    }
 }
