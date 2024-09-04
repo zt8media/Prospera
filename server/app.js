@@ -30,14 +30,16 @@ app.post("/register", (req, res) => {
     return res.status(400).json({ message: "All fields are required." });
   }
 
-  const hashedPassword = bcrypt.hashSync(password, 8);
-  const sql = `INSERT INTO register(name, email, password) VALUES(?, ?, ?)`;
-  connection.query(sql, [name, email, hashedPassword], function (err) {
-    if (err) {
-      res.status(500).json({ message: "Registration failed." });
-    } else {
-      res.status(201).json({ message: "User registered successfully." });
-    }
+  const hashedPassword = bcrypt.hash(password, 10, function(err, hash){
+
+    const sql = `INSERT INTO register(name, email, password) VALUES(?, ?, ?)`;
+    connection.query(sql, [name, email, hash], function (err) {
+      if (err) {
+        res.status(500).json({ message: "Registration failed." });
+      } else {
+        res.status(201).json({ message: "User registered successfully." });
+      }
+    });
   });
 });
 
@@ -59,16 +61,20 @@ app.post("/login", (req, res) => {
 
     if (data.length > 0) {
       const user = data[0];
-      const validPassword = await bcrypt.compare(password, user.password);
-
-      if (validPassword) {
-        res.status(200).json({
-          message: "Login successful",
-          user: { id: user.id, email: user.email, isAdmin: user.isAdmin },
-        });
-      } else {
-        res.status(400).json({ message: "Invalid email or password." });
-      }
+      bcrypt.compare(password, user.password, function(err, result) {
+        console.log(result);
+        console.log(password)
+        console.log(user.password)
+        
+        if (result) {
+          res.status(200).json({
+            message: "Login successful",
+            user: { id: user.id, email: user.email, isAdmin: user.isAdmin },
+          });
+        } else {
+          res.status(400).json({ message: "Invalid email or password." });
+        }
+      });
     } else {
       res.status(400).json({ message: "Invalid email or password." });
     }
