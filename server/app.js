@@ -1,6 +1,5 @@
 const express = require("express");
-const jwt = require("jsonwebtoken"); // JSON Web Token
-const bcrypt = require("bcryptjs"); // Security for password hashing
+const bcrypt = require("bcryptjs"); // For password hashing
 const cors = require("cors");
 const mysql = require("mysql2");
 require("dotenv").config();
@@ -8,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// establish connection to databse
+// Establish connection to the database
 const connection = mysql.createConnection({
   host: process.env.host,
   user: process.env.user,
@@ -23,197 +22,167 @@ connection.connect((err) => {
   console.log("Connected to MySQL!");
 });
 
-// store user's data in contact table
+// Store user's data in register table (for registration)
+app.post("/register", (req, res) => {
+  const { name, email, password } = req.body;
+  
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  const hashedPassword = bcrypt.hashSync(password, 8);
+  const sql = `INSERT INTO register(name, email, password) VALUES(?, ?, ?)`;
+  connection.query(sql, [name, email, hashedPassword], function (err) {
+    if (err) {
+      res.status(500).json({ message: "Registration failed." });
+    } else {
+      res.status(201).json({ message: "User registered successfully." });
+    }
+  });
+});
+
+// Login route for users
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  // Ensure email and password are provided
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required." });
+  }
+
+  const sql = `SELECT * FROM register WHERE email = ?`;
+  connection.query(sql, [email], async function (err, data) {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Server error during login." });
+    }
+
+    if (data.length > 0) {
+      const user = data[0];
+      const validPassword = await bcrypt.compare(password, user.password);
+
+      if (validPassword) {
+        res.status(200).json({
+          message: "Login successful",
+          user: { id: user.id, email: user.email, isAdmin: user.isAdmin },
+        });
+      } else {
+        res.status(400).json({ message: "Invalid email or password." });
+      }
+    } else {
+      res.status(400).json({ message: "Invalid email or password." });
+    }
+  });
+});
+
+// Store user's data in contact table
 app.post("/contact", (req, res) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const comment = req.body.comment;
+  const { name, email, comment } = req.body;
 
   const sql = `INSERT INTO contact_form(name, email, comment) VALUES(?, ?, ?)`;
-  connection.query(sql, [name, email, comment], function (err, data) {
+  connection.query(sql, [name, email, comment], function (err) {
     if (err) {
-      console.log("error");
+      res.status(500).json({ message: "Failed to save contact form data." });
     } else {
-      console.log("success");
+      res.status(201).json({ message: "Contact form data saved successfully." });
     }
   });
-});
-
-// store user's data in register table
-app.post("/register", (req, res) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const password = req.body.password;
-
-  const sql = `INSERT INTO register(name, email, password) VALUES(?, ?, ?)`;
-  connection.query(sql, [name, email, password], function (err, data) {
-    if (err) {
-      console.log("error");
-    } else {
-      console.log("success");
-    }
-  });
-});
-
-// Middleware
-const PORT = process.env.PORT || 8080;
-const JWT_SECRET = process.env.JWT_SECRET;
-
-if (!JWT_SECRET) {
-  console.error("FATAL ERROR: JWT_SECRET is not defined.");
-  process.exit(1);
-}
-
-// Middleware for authenticating and authorizing admin access
-const authenticateAdmin = (req, res, next) => {
-  try {
-    const token = req.header("Authorization").replace("Bearer ", "");
-    const decoded = jwt.verify(token, JWT_SECRET);
-
-    const user = users.find((u) => u.id === decoded.id && u.role === "admin");
-    if (!user) {
-      return res.status(403).send("Access denied. Admins only.");
-    }
-
-    req.user = user;
-    next();
-  } catch (error) {
-    res.status(401).send("Authentication failed.");
-  }
-};
-
-// Login route for admins
-app.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const sql = `SELECT * FROM register WHERE email = ? AND password = ?`;
-    const result = connection.query(
-      sql,
-      [email, password],
-      function (err, data) {
-        if (err) {
-          console.log("error");
-        } else {
-          console.log("success");
-        }
-      }
-    );
-    console.log("rsult", result);
-    res.json(result);
-
-    // const user = users.find((u) => u.email === email);
-
-    // if (!user || !(await bcrypt.compare(password, user.password))) {
-    //   return res.status(400).send("Invalid email or password.");
-    // }
-
-    // const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET);
-    // res.send({ user, token });
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
 });
 
 // Admin-only route to get all users
-app.get("/admin/users", authenticateAdmin, (req, res) => {
-  try {
-    res.send(users);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+app.get("/admin/users", (req, res) => {
+  const sql = `SELECT * FROM register`;
+  connection.query(sql, function (err, data) {
+    // console.log(data);
+    if (err) {
+      res.status(500).json({ message: "Error retrieving users." });
+    } else {
+      res.json(data);
+    }
+  });
 });
 
-// Admin-only route to add a new user
-app.post("/admin/users", authenticateAdmin, async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 8);
+// Admin-only route for adding a new user
+app.post("/admin/users", (req, res) => {
+  const { name, email, password } = req.body;
 
-    const newUser = {
-      id: users.length + 1,
-      name,
-      email,
-      password: hashedPassword,
-      completion: 0, // Assume default completion status
-    };
-
-    users.push(newUser);
-    res.status(201).send(newUser);
-  } catch (error) {
-    res.status(400).send(error.message);
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: "All fields are required." });
   }
+
+  const hashedPassword = bcrypt.hashSync(password, 8);
+  const sql = `INSERT INTO register(name, email, password) VALUES(?, ?, ?)`;
+  connection.query(sql, [name, email, hashedPassword], function (err) {
+    if (err) {
+      res.status(500).json({ message: "Failed to add user." });
+    } else {
+      res.status(201).json({ message: "User added successfully." });
+    }
+  });
 });
 
 // Admin-only route to delete a user
-app.delete("/admin/users/:id", authenticateAdmin, (req, res) => {
-  try {
-    const userId = parseInt(req.params.id);
-    const userIndex = users.findIndex((u) => u.id === userId);
+app.delete("/admin/users/:id", (req, res) => {
+  const userId = req.params.id;
 
-    if (userIndex === -1) {
-      return res.status(404).send("User not found.");
+  const sql = `DELETE FROM register WHERE id = ?`;
+  connection.query(sql, [userId], function (err) {
+    if (err) {
+      res.status(500).json({ message: "Error deleting user." });
+    } else {
+      res.json({ message: "User deleted successfully." });
     }
-
-    users.splice(userIndex, 1);
-    res.send("User deleted.");
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+  });
 });
 
 // Admin-only route for data analytics
-app.get("/admin/analytics", authenticateAdmin, (req, res) => {
-  try {
-    const analytics = users.map((user) => ({
-      name: user.name,
-      completion: user.completion,
-    }));
-    res.send(analytics);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+app.get("/admin/analytics", (req, res) => {
+  const sql = `SELECT name, completion FROM register`;
+  connection.query(sql, function (err, data) {
+    if (err) {
+      res.status(500).json({ message: "Error retrieving analytics." });
+    } else {
+      res.json(data);
+    }
+  });
 });
 
 // Route for users to update their completion status in the frontend
 app.put("/user/completion", (req, res) => {
-  try {
-    const token = req.header("Authorization").replace("Bearer ", "");
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const user = users.find((u) => u.id === decoded.id);
+  const { userId, completion } = req.body;
 
-    if (!user) {
-      return res.status(404).send("User not found.");
-    }
-
-    const { completion } = req.body; // Completion value in the frontend
-    if (completion !== undefined && completion >= 0 && completion <= 100) {
-      user.completion = completion; // Update user's completion status
-      res.send({ message: "Completion status updated", user });
-    } else {
-      res.status(400).send("Invalid completion value.");
-    }
-  } catch (error) {
-    res.status(500).send(error.message);
+  if (!userId || completion === undefined) {
+    return res.status(400).json({ message: "User ID and completion status are required." });
   }
+
+  const sql = `UPDATE register SET completion = ? WHERE id = ?`;
+  connection.query(sql, [completion, userId], function (err) {
+    if (err) {
+      res.status(500).json({ message: "Error updating completion status." });
+    } else {
+      res.json({ message: "Completion status updated successfully." });
+    }
+  });
 });
 
 // Route for users to get their profile details
 app.get("/user/profile", (req, res) => {
-  try {
-    const token = req.header("Authorization").replace("Bearer ", "");
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const user = users.find((u) => u.id === decoded.id);
+  const userId = req.query.userId;
 
-    if (!user) {
-      return res.status(404).send("User not found.");
-    }
-
-    res.send(user);
-  } catch (error) {
-    res.status(500).send(error.message);
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required." });
   }
+
+  const sql = `SELECT * FROM register WHERE id = ?`;
+  connection.query(sql, [userId], function (err, data) {
+    if (err) {
+      res.status(500).json({ message: "Error retrieving user profile." });
+    } else {
+      res.json(data[0]);
+    }
+  });
 });
 
 // Start the server
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
