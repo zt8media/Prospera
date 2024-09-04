@@ -86,14 +86,30 @@ const authenticateAdmin = (req, res, next) => {
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = users.find((u) => u.email === email);
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).send("Invalid email or password.");
-    }
+    const sql = `SELECT * FROM register WHERE email = ? AND password = ?`;
+    const result = connection.query(
+      sql,
+      [email, password],
+      function (err, data) {
+        if (err) {
+          console.log("error");
+        } else {
+          console.log("success");
+        }
+      }
+    );
+    console.log("rsult", result);
+    res.json(result);
 
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET);
-    res.send({ user, token });
+    // const user = users.find((u) => u.email === email);
+
+    // if (!user || !(await bcrypt.compare(password, user.password))) {
+    //   return res.status(400).send("Invalid email or password.");
+    // }
+
+    // const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET);
+    // res.send({ user, token });
   } catch (error) {
     res.status(400).send(error.message);
   }
