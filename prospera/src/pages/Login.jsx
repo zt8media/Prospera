@@ -43,7 +43,7 @@ const LoginPage = () => {
         if (data.user.isAdmin) {
           navigate('/admin');
         } else {
-          navigate('/activities');
+          navigate('/learn');
         }
       } else {
         const errorData = await response.json();
