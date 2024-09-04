@@ -16,19 +16,6 @@ const connection = mysql.createConnection({
   port: process.env.port,
 });
 
-app.use(cors(corsOptions));
-
-app.use(express.json());
-
-// Serve static files from the dist directory
-app.use(express.static(path.join(__dirname, '../dist')));
-
-
-
-// Serve the frontend app for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
-});
 
 
 // Connect to MySQL
