@@ -8,11 +8,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/admin/users', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
+      const response = await fetch('http://localhost:8080/admin/users');
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
@@ -25,11 +21,7 @@ const AdminDashboard = () => {
   }, []);
 
   const fetchAnalytics = async () => {
-    const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:8080/admin/analytics', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
+    const response = await fetch('http://localhost:8080/admin/analytics');
     if (response.ok) {
       const data = await response.json();
       setAnalytics(data);
@@ -37,19 +29,17 @@ const AdminDashboard = () => {
   };
 
   const handleAddUser = async () => {
-    const token = localStorage.getItem('token');
     const response = await fetch('http://localhost:8080/admin/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(newUser),
     });
 
     if (response.ok) {
-      const user = await response.json();
-      setUsers([...users, user]);
+      const addedUser = await response.json();
+      setUsers([...users, addedUser]);
       setNewUser({ name: '', email: '', password: '' });
     } else {
       console.error('Error adding user:', response.statusText);
@@ -57,10 +47,8 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    const token = localStorage.getItem('token');
     const response = await fetch(`http://localhost:8080/admin/users/${userId}`, {
       method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` },
     });
 
     if (response.ok) {

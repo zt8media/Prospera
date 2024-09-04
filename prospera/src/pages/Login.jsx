@@ -7,13 +7,14 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [serverError, setServerError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     let valid = true;
 
-    // Validation
+    // Validation for email and password
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       setEmailError('Enter Valid Email');
       valid = false;
@@ -37,20 +38,20 @@ const LoginPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        if (data.user.role === 'admin') {
+        const data = await response.json();
+        if (data.user.isAdmin) {
           navigate('/admin');
         } else {
           navigate('/activities');
         }
       } else {
-        setEmailError(data.message || 'Invalid email or password.');
+        const errorData = await response.json();
+        setServerError(errorData.message || 'Invalid email or password.');
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      setEmailError('Error logging in. Please try again later.');
+      setServerError('Error logging in. Please try again later.');
     }
   };
 
@@ -77,9 +78,10 @@ const LoginPage = () => {
           <ErrorMessage>{passwordError}</ErrorMessage>
         </FormField>
         <LoginButton type="submit">Login</LoginButton>
+        {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
       </LoginForm>
       <RegisterPrompt>
-        Don’t have an account? <RegisterLink to="/Register">Register here</RegisterLink>
+        Don’t have an account? <RegisterLink to="/register">Register here</RegisterLink>
       </RegisterPrompt>
     </LoginContainer>
   );

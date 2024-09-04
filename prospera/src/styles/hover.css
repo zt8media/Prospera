@@ -31,3 +31,29 @@
     font-weight: bolder;
     padding-bottom: 30px;
 }
+
+.mission-title {
+    font-family: 'Didact Gothic';
+}
+
+@media (max-width:600px) {
+    /* mobile phone */
+    .about-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .about-images {
+        height: 120px;
+        width: 120px;
+    }
+
+    .mission-title {
+        font-size: 20px;
+    }
+
+    .description {
+        font-size: 20px;
+        width: 400px;
+    }
+}

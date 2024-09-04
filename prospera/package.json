@@ -20,6 +20,7 @@
     "axois": "^0.0.1-security",
     "cors": "^2.8.5",
     "font-awesome": "^4.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "mysql2": "^3.11.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -30,7 +31,14 @@
     "styled-components": "^6.1.12"
   },
   "devDependencies": {
+    "@babel/cli": "^7.25.6",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-react": "^7.24.7",
     "@eslint/js": "^9.9.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
