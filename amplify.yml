@@ -10,6 +10,6 @@ frontend:
         - npm run build
   artifacts:
     # The files and folders that need to be packaged up during the build phase
-    baseDirectory: /dist
+    baseDirectory: prospera/dist
     files:
       - '**/*'
