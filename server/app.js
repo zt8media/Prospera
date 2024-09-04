@@ -95,6 +95,32 @@ app.post("/contact", (req, res) => {
   });
 });
 
+
+
+//Get route for register 
+app.get("/register", (req,res) => {
+  connection.query("SELECT * FROM register" , (err,results) => {
+    if(err){
+      return res.status(500).send("Error retrieving data");
+    }
+    res.json(results);
+  })
+})
+
+
+
+//Get route for login
+app.get("/login", (req,res) => {
+  connection.query("SELECT * FROM register" , (err,results) => {
+    if(err){
+      return res.status(500).send("Error retrieving data");
+    }
+    res.json(results);
+  })
+})
+
+
+
 // Admin-only route to get all users
 app.get("/admin/users", (req, res) => {
   const sql = `SELECT * FROM register`;
