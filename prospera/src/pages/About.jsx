@@ -30,7 +30,7 @@ export default function About() {
       <Hover/>
     </div>
     <div className='expectations'>
-      <h1 className='about-us'>What you can expect</h1>
+      <h1 className='about-us'>What You Can Expect</h1>
       <div className='expect-descript'>
       <div>
         <p style={{width: '90%', paddingLeft: '30px'}}>Welcome to Prospera, where learning about money is both fun and exciting! Our lessons are designed to be engaging and easy to follow. From understanding how to save your allowance to learning how to make smart spending choices, we make financial education enjoyable! Join our community of fellow middle schoolers who are also learning about money. Share your experiences, ask questions, and get support from others who are on the same journey as you. Here’s what you can look forward to as you explore our site:</p>

@@ -32,8 +32,9 @@ export default function Hover() {
                         onMouseLeave={() => setHoveredImage(null)}
                     >
                         <img src={image.src} alt={`${image.name}`} className='about-images'/>
-                        <h3>{image.name}</h3>
+                        <h2 className='mission-title'>{image.name}</h2>
                     </div>
+                    
                 ))}
             </div>
                 {hoveredImage && (
