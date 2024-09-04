@@ -16,11 +16,6 @@ const connection = mysql.createConnection({
   port: process.env.port,
 });
 
-// Middleware to handle CORS
-const corsOptions = {
-  origin: ['http://localhost:5173', 'https://prospera-73t36tgl7-zariyahs-projects.vercel.app/'], // Allow both localhost (for development) and your production domain
-  optionsSuccessStatus: 200,
-};
 app.use(cors(corsOptions));
 
 app.use(express.json());
