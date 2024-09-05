@@ -40,12 +40,14 @@ const LoginPage = () => {
 
       if (response.ok) {
         const data = await response.json();
+        localStorage.setItem('token', data.token); // Store the token
         if (data.user.isAdmin) {
           navigate('/admin');
         } else {
           navigate('/learn');
         }
-      } else {
+      }
+       else {
         const errorData = await response.json();
         setServerError(errorData.message || 'Invalid email or password.');
       }
