@@ -14,7 +14,7 @@ const Contact = () => {
 
   // Function that sends a request to the form endpoint
   const send = () => {
-    axios.post('http://localhost:8080/contact', {
+    axios.post('https://prospera-9v1m-backend.vercel.app/contact', {
       name: name,
       email: email,
       comment: comment,
