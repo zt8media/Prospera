@@ -13,7 +13,7 @@ const RegisterPage = () => {
 
  // Function that sends a request to the register endpoint
  const send = () => {
-  axios.post('http://localhost:8080/register', {
+  axios.post('https://prospera-9v1m-backend.vercel.app/register', {
     name: name,
     email: email,
     password: password,

@@ -16,8 +16,6 @@ const connection = mysql.createConnection({
   port: process.env.port,
 });
 
-
-
 // Connect to MySQL
 connection.connect((err) => {
   if (err) throw err;
@@ -27,13 +25,12 @@ connection.connect((err) => {
 // Store user's data in register table (for registration)
 app.post("/register", (req, res) => {
   const { name, email, password } = req.body;
-  
+
   if (!name || !email || !password) {
     return res.status(400).json({ message: "All fields are required." });
   }
 
-  const hashedPassword = bcrypt.hash(password, 10, function(err, hash){
-
+  const hashedPassword = bcrypt.hash(password, 10, function (err, hash) {
     const sql = `INSERT INTO register(name, email, password) VALUES(?, ?, ?)`;
     connection.query(sql, [name, email, hash], function (err) {
       if (err) {
@@ -63,11 +60,7 @@ app.post("/login", (req, res) => {
 
     if (data.length > 0) {
       const user = data[0];
-      bcrypt.compare(password, user.password, function(err, result) {
-        console.log(result);
-        console.log(password)
-        console.log(user.password)
-        
+      bcrypt.compare(password, user.password, function (err, result) {
         if (result) {
           res.status(200).json({
             message: "Login successful",
@@ -79,6 +72,25 @@ app.post("/login", (req, res) => {
       });
     } else {
       res.status(400).json({ message: "Invalid email or password." });
+    }
+  });
+});
+
+// Forgot password route
+app.post("/forgot-password", (req, res) => {
+  const { email } = req.body;
+
+  const sql = `SELECT * FROM register WHERE email = ?`;
+  connection.query(sql, [email], function (err, data) {
+    if (err) {
+      return res.status(500).json({ message: "Server error." });
+    }
+    if (data.length > 0) {
+      const user = data[0];
+      // You can send an email to the user with a password reset link
+      res.status(200).json({ message: "Password reset link sent to email." });
+    } else {
+      res.status(400).json({ message: "Email not found." });
     }
   });
 });
@@ -97,37 +109,31 @@ app.post("/contact", (req, res) => {
   });
 });
 
-
-
-//Get route for register 
-app.get("/register", (req,res) => {
-  connection.query("SELECT * FROM register" , (err,results) => {
-    if(err){
+// Get route for register
+app.get("/register", (req, res) => {
+  connection.query("SELECT * FROM register", (err, results) => {
+    if (err) {
       return res.status(500).send("Error retrieving data");
     }
     res.json(results);
-  })
-})
+  });
+});
 
-
-
-//Get route for login
-app.get("/login", (req,res) => {
-  connection.query("SELECT * FROM register" , (err,results) => {
-    if(err){
+// Get route for login
+app.get("/login", (req, res) => {
+  connection.query("SELECT * FROM register", (err, results) => {
+    if (err) {
       return res.status(500).send("Error retrieving data");
     }
     res.json(results);
-  })
-})
+  });
+});
 
-
-
-// Admin-only route to get all users
+// Admin-only route to get all users (Added pagination)
 app.get("/admin/users", (req, res) => {
-  const sql = `SELECT * FROM register`;
-  connection.query(sql, function (err, data) {
-    // console.log(data);
+  const { page = 1, limit = 10 } = req.query;
+  const sql = `SELECT * FROM register LIMIT ? OFFSET ?`;
+  connection.query(sql, [Number(limit), (Number(page) - 1) * Number(limit)], function (err, data) {
     if (err) {
       res.status(500).json({ message: "Error retrieving users." });
     } else {
@@ -171,13 +177,29 @@ app.delete("/admin/users/:id", (req, res) => {
 
 // Admin-only route for data analytics
 app.get("/admin/analytics", (req, res) => {
-  const sql = `SELECT name, completion FROM register`;
+  const sql = `SELECT savingMoney, investing, budgeting, spendingWisely FROM register`;
   connection.query(sql, function (err, data) {
     if (err) {
-      res.status(500).json({ message: "Error retrieving analytics." });
-    } else {
-      res.json(data);
+      console.error("Error retrieving analytics:", err); // Log the error for debugging
+      return res.status(500).json({ message: "Error retrieving analytics." });
     }
+
+    // Process the data to calculate the number of people who completed each task
+    const analytics = {
+      savingMoney: 0,
+      investing: 0,
+      budgeting: 0,
+      spendingWisely: 0,
+    };
+
+    data.forEach((row) => {
+      if (row.savingMoney) analytics.savingMoney += 1;
+      if (row.investing) analytics.investing += 1;
+      if (row.budgeting) analytics.budgeting += 1;
+      if (row.spendingWisely) analytics.spendingWisely += 1;
+    });
+
+    res.json(analytics);
   });
 });
 
@@ -215,6 +237,12 @@ app.get("/user/profile", (req, res) => {
       res.json(data[0]);
     }
   });
+});
+
+// Centralized error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong." });
 });
 
 // Start the server
