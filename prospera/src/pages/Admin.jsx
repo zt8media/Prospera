@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { Pie } from "react-chartjs-2";
+import "chart.js/auto";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
-  const [analytics, setAnalytics] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', email: '', password: '' });
+  const [analytics, setAnalytics] = useState(null);
+  const [newUser, setNewUser] = useState({ name: "", email: "", password: "" });
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch('http://localhost:8080/admin/users');
+      const response = await fetch("https://prospera-9v1m-backend.vercel.app/admin/users");
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
       } else {
-        console.error('Error fetching users:', response.statusText);
+        console.error("Error fetching users:", response.statusText);
       }
     };
 
@@ -21,18 +23,20 @@ const AdminDashboard = () => {
   }, []);
 
   const fetchAnalytics = async () => {
-    const response = await fetch('http://localhost:8080/admin/analytics');
+    const response = await fetch("https://prospera-9v1m-backend.vercel.app/admin/analytics");
     if (response.ok) {
       const data = await response.json();
       setAnalytics(data);
+    } else {
+      console.error("Error fetching analytics:", response.statusText);
     }
   };
 
   const handleAddUser = async () => {
-    const response = await fetch('http://localhost:8080/admin/users', {
-      method: 'POST',
+    const response = await fetch("https://prospera-9v1m-backend.vercel.app/admin/users", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(newUser),
     });
@@ -40,22 +44,44 @@ const AdminDashboard = () => {
     if (response.ok) {
       const addedUser = await response.json();
       setUsers([...users, addedUser]);
-      setNewUser({ name: '', email: '', password: '' });
+      setNewUser({ name: "", email: "", password: "" });
     } else {
-      console.error('Error adding user:', response.statusText);
+      console.error("Error adding user:", response.statusText);
     }
   };
 
   const handleDeleteUser = async (userId) => {
-    const response = await fetch(`http://localhost:8080/admin/users/${userId}`, {
-      method: 'DELETE',
+    const response = await fetch(`https://prospera-9v1m-backend.vercel.app/admin/users/${userId}`, {
+      method: "DELETE",
     });
 
     if (response.ok) {
-      setUsers(users.filter(user => user.id !== userId));
+      setUsers(users.filter((user) => user.id !== userId));
     } else {
-      console.error('Error deleting user:', response.statusText);
+      console.error("Error deleting user:", response.statusText);
     }
+  };
+
+  const renderPieChart = () => {
+    if (!analytics) return null;
+
+    const data = {
+      labels: ["Saving Money", "Investing", "Budgeting", "Spending Wisely"],
+      datasets: [
+        {
+          data: [
+            analytics.savingMoney,
+            analytics.investing,
+            analytics.budgeting,
+            analytics.spendingWisely,
+          ],
+          backgroundColor: ["#76b07f", "#ffcd56", "#ff6384", "#36a2eb"],
+          hoverOffset: 4,
+        },
+      ],
+    };
+
+    return <Pie data={data} />;
   };
 
   return (
@@ -87,7 +113,7 @@ const AdminDashboard = () => {
 
       <SectionTitle>User Management</SectionTitle>
       <UserList>
-        {users.map(user => (
+        {users.map((user) => (
           <UserItem key={user.id}>
             {user.name} - {user.email}
             <DeleteButton onClick={() => handleDeleteUser(user.id)}>Delete</DeleteButton>
@@ -97,11 +123,7 @@ const AdminDashboard = () => {
 
       <SectionTitle>Analytics</SectionTitle>
       <AnalyticsButton onClick={fetchAnalytics}>View Analytics</AnalyticsButton>
-      <AnalyticsList>
-        {analytics.map(item => (
-          <AnalyticsItem key={item.name}>{item.name}: {item.completion}% completed</AnalyticsItem>
-        ))}
-      </AnalyticsList>
+      {analytics && renderPieChart()}
     </DashboardContainer>
   );
 };
@@ -112,7 +134,7 @@ export default AdminDashboard;
 const DashboardContainer = styled.div`
   padding: 40px;
   background-color: #f9f9f9;
-  font-family: 'Fredoka', sans-serif;
+  font-family: "Fredoka", sans-serif;
 `;
 
 const DashboardTitle = styled.h2`
@@ -141,7 +163,7 @@ const Input = styled.input`
   border: 2px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
-  font-family: 'Fredoka', sans-serif;
+  font-family: "Fredoka", sans-serif;
 
   &:focus {
     border-color: #76b07f;
@@ -156,7 +178,7 @@ const AddButton = styled.button`
   border: none;
   border-radius: 5px;
   font-size: 18px;
-  font-family: 'Fredoka', sans-serif;
+  font-family: "Fredoka", sans-serif;
   cursor: pointer;
   transition: background-color 0.3s;
 
@@ -203,7 +225,7 @@ const AnalyticsButton = styled.button`
   border: none;
   border-radius: 5px;
   font-size: 18px;
-  font-family: 'Fredoka', sans-serif;
+  font-family: "Fredoka", sans-serif;
   cursor: pointer;
   transition: background-color 0.3s;
 
@@ -223,4 +245,9 @@ const AnalyticsItem = styled.li`
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+`;
+
+const PieContainer = styled.div`
+  width: 60%;
+  margin: 20px auto;
 `;

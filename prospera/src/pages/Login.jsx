@@ -32,7 +32,7 @@ const LoginPage = () => {
     if (!valid) return;
 
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      const response = await fetch('https://prospera-9v1m-backend.vercel.app/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -79,6 +79,7 @@ const LoginPage = () => {
         </FormField>
         <LoginButton type="submit">Login</LoginButton>
         {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
+        <ForgotPasswordLink to="/forgot-password">Forgot Password?</ForgotPasswordLink>
       </LoginForm>
       <RegisterPrompt>
         Don’t have an account? <RegisterLink to="/register">Register here</RegisterLink>
@@ -157,6 +158,18 @@ const ErrorMessage = styled.small`
   font-size: 14px;
   margin-top: 5px;
   display: block;
+`;
+
+const ForgotPasswordLink = styled(Link)`
+  color: #5b9365;
+  text-decoration: none;
+  font-size: 14px;
+  margin-top: 10px;
+  display: block;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const RegisterPrompt = styled.div`
