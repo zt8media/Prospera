@@ -98,9 +98,18 @@ const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 140px;
+  min-height: 75vh;  /* Ensure container takes full viewport height */
+  padding: 40px 20px; /* Reduce padding for mobile devices */
   background-color: #f0f0f0;
   font-family: 'Fredoka', sans-serif;
+
+  @media (max-width: 768px) {
+    padding: 80px 20px; /* Adjust padding for tablet size */
+  }
+
+  @media (max-width: 480px) {
+    padding: 60px 10px; /* Adjust padding for smaller mobile screens */
+  }
 `;
 
 const LoginTitle = styled.h2`
