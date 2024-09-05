@@ -37,7 +37,8 @@ const Navbar = () => {
         {!token ? (
           <li><Link to="/Login" onClick={closeMobileMenu}>Login</Link></li>
         ) : (
-          <li><button onClick={handleLogout} className="logout-btn">Sign Out</button></li>
+          <li><button onClick={handleLogout} className="nav-signout-btn">Sign Out</button></li>
+
         )}
       </ul>
       <div className="hamburger" onClick={toggleMobileMenu}>

@@ -236,12 +236,13 @@ const LargeSquare = styled.div`
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 1fr);
     gap: 10px;
-    margin-top: 30px;
+   margin-top: 170px;
   }
 
   @media (max-width: 480px) {
     padding: 10px;
     gap: 5px;
+        margin-top: 150px;
   }
 `;
 

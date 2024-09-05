@@ -18,6 +18,28 @@ nav.navbar {
     align-items: center;
     z-index: 100;
 }
+.nav-signout-btn {
+    background: none;
+    border: none;
+    color: black;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 25px;
+    font-weight: normal;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.nav-signout-btn:hover {
+    color: #87c38f; /* Hover color */
+    text-decoration: none; /* Remove underline on hover */
+}
+
+/* Mobile-specific styles for signout button */
+.navlinks-mobile .nav-signout-btn {
+    font-size: 18px;
+    color: white;
+}
 
 .nav-logo-container {
     display: flex;
