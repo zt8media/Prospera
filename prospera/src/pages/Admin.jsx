@@ -10,7 +10,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch("https://prospera-9v1m-backend.vercel.app/admin/users");
+      const response = await fetch("http://localhost:8080/admin/users");
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
@@ -23,7 +23,7 @@ const AdminDashboard = () => {
   }, []);
 
   const fetchAnalytics = async () => {
-    const response = await fetch("https://prospera-9v1m-backend.vercel.app/admin/analytics");
+    const response = await fetch("http://localhost:8080/admin/analytics");
     if (response.ok) {
       const data = await response.json();
       setAnalytics(data);
@@ -33,7 +33,7 @@ const AdminDashboard = () => {
   };
 
   const handleAddUser = async () => {
-    const response = await fetch("https://prospera-9v1m-backend.vercel.app/admin/users", {
+    const response = await fetch("http://localhost:8080/admin/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    const response = await fetch(`https://prospera-9v1m-backend.vercel.app/admin/users/${userId}`, {
+    const response = await fetch(`http://localhost:8080/admin/users/${userId}`, {
       method: "DELETE",
     });
 
