@@ -57,14 +57,14 @@ const UserDashboard = () => {
 
   return (
     <DashboardWrapper>
-      {/* Profile Card Section */}
+      {/* Profile Card Section
       <ProfileCard>
         <ProfileImage src={profile.profilePicture} alt="Profile" />
         <ProfileName>{profile.name}</ProfileName>
         <ProfileEmail>{profile.email}</ProfileEmail>
         <ProfileMessage>Email admin@gmail.com to change email/password</ProfileMessage>
         <ProfileInput type="file" onChange={(e) => handleProfilePicture(e)} />
-      </ProfileCard>
+      </ProfileCard> */}
 
       {/* Progress Section */}
       <ProgressSection>
