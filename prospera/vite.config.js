@@ -8,4 +8,13 @@ export default defineConfig({
     environment: "jsdom",
     setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   },
+
+
+    build: {
+      rollupOptions: {
+        external: ['react-icons'],
+      },
+    },
+
+
 });
