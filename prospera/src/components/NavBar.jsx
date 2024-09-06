@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/nav.css';
-import logo from '../media/Navbar-pig.png';
+import logo from '../media/Navbar-pig.png'; // Logo for navbar
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faUserCircle } from '@fortawesome/free-solid-svg-icons'; // FontAwesome icons
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const token = localStorage.getItem('token');
-  let userRole = null;
-
-  if (token) {
-    try {
-      userRole = JSON.parse(atob(token.split('.')[1])).role;
-    } catch (error) {
-      console.error('Error decoding token:', error);
-    }
-  }
+  const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setIsMobile(!isMobile);
@@ -24,6 +16,19 @@ const Navbar = () => {
 
   const closeMobileMenu = () => {
     setIsMobile(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userId'); // Remove userId on logout
+    navigate('/login'); // Navigate to login page
+  };
+
+  const handleUserIconClick = () => {
+    if (userId) {
+      navigate('/user/dashboard'); // Navigate to dashboard if logged in
+    } else {
+      navigate('/login'); // Navigate to login if not logged in
+    }
   };
 
   return (
@@ -37,11 +42,17 @@ const Navbar = () => {
         <li><Link to="/Learn" onClick={closeMobileMenu}>Learn</Link></li>
         <li><Link to="/About" onClick={closeMobileMenu}>About Us</Link></li>
         <li><Link to="/Contact" onClick={closeMobileMenu}>Contact</Link></li>
-        <li><Link to="/Login" onClick={closeMobileMenu}>Login</Link></li>
-        {userRole === 'admin' && (
-          <li><Link to="/Admin" onClick={closeMobileMenu}>Admin Dashboard</Link></li>
+        {!userId ? (
+          <li><Link to="/Login" onClick={closeMobileMenu}>Login</Link></li>
+        ) : (
+          <>
+            <li><button onClick={handleLogout} className="nav-signout-btn">Sign Out</button></li>
+            {/* Generic User Icon */}
+            <li onClick={handleUserIconClick} className="user-avatar-container">
+              <FontAwesomeIcon icon={faUserCircle} className="user-avatar-icon" />
+            </li>
+          </>
         )}
-    
       </ul>
       <div className="hamburger" onClick={toggleMobileMenu}>
         <FontAwesomeIcon icon={isMobile ? faTimes : faBars} />

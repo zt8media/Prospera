@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components';
 import Modal from 'react-modal';
 import ActivityPig from '../media/activity-pig.png';
@@ -13,6 +13,8 @@ import SpendingPig from '../media/Spending-pig.png';
 import InvestingPig from '../media/Investing-pig.png';
 import BudgetingPig from '../media/Budgeting-pig.png';
 import SavingPig from '../media/Saving-pig.png';
+ 
+
 
 
 
@@ -236,12 +238,13 @@ const LargeSquare = styled.div`
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 1fr);
     gap: 10px;
-    margin-top: 30px;
+   margin-top: 170px;
   }
 
   @media (max-width: 480px) {
     padding: 10px;
     gap: 5px;
+        margin-top: 150px;
   }
 `;
 
@@ -534,17 +537,44 @@ const Switch = styled.input`
 `;
 
 
-
 const LearnPage = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState(null);
-  const [fact3, setFact3] = useState('');
-  const [completed, setCompleted] = useState(false); // Define the 'completed' state
-  
-  const toggleCompletion = () => {
-    setCompleted((prevCompleted) => !prevCompleted);
-  };
 
+      const [modalIsOpen, setModalIsOpen] = useState(false);
+      const [selectedTopic, setSelectedTopic] = useState(null);
+      const [completedStatus, setCompletedStatus] = useState({});
+      const [fact3, setFact3] = useState('');
+      useEffect(() => {
+        // Load the completion status from localStorage on component mount
+        const storedStatus = JSON.parse(localStorage.getItem('completedStatus')) || {};
+        setCompletedStatus(storedStatus);
+      }, []);
+    
+      // Toggle the completion state for a specific topic and save it to localStorage
+      const toggleCompletion = (topic) => {
+        const currentStatus = completedStatus[topic];
+        const newStatus = !currentStatus;
+    
+        const updatedStatus = { ...completedStatus, [topic]: newStatus };
+        setCompletedStatus(updatedStatus);
+    
+        // Save to localStorage
+        localStorage.setItem('completedStatus', JSON.stringify(updatedStatus));
+    
+        // Optionally, make an API call to update the backend
+        const userId = localStorage.getItem('userId');
+        fetch(`https://prospera-9v1m-backend.vercel.app/user/completion`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId, topic, completed: newStatus ? 1 : 0 }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Completion status updated in the backend:', data);
+        })
+        .catch(error => console.error('Error updating completion status:', error));
+      };
+    
+  // Modal logic
   const openModal = (topic) => {
     setSelectedTopic(topic);
     setFact3(getRandomFact(topic.name));  // Initialize with a random fact
@@ -578,23 +608,23 @@ const LearnPage = () => {
 
       <ActivityPageWrapper>
         <LargeSquare>
-        {topics.map((topic, index) => (
-    <TopicCard key={index} color={topic.color} onClick={() => openModal(topic)}>
-      <TopicLogo
-        src={
-          topic.name === 'Spending Wisely'
-            ? SpendingPig
-            : topic.name === 'Investing'
-            ? InvestingPig
-            : topic.name === 'Budgeting'
-            ? BudgetingPig
-            : SavingPig
-        }
-        alt={`${topic.name} Logo`}
-      />
-      <h2>{topic.name}</h2>
-    </TopicCard>
-  ))}
+          {topics.map((topic, index) => (
+            <TopicCard key={index} color={topic.color} onClick={() => openModal(topic)}>
+              <TopicLogo
+                src={
+                  topic.name === 'Spending Wisely'
+                    ? SpendingPig
+                    : topic.name === 'Investing'
+                    ? InvestingPig
+                    : topic.name === 'Budgeting'
+                    ? BudgetingPig
+                    : SavingPig
+                }
+                alt={`${topic.name} Logo`}
+              />
+              <h2>{topic.name}</h2>
+            </TopicCard>
+          ))}
         </LargeSquare>
 
         <Modal
@@ -623,20 +653,14 @@ const LearnPage = () => {
           {selectedTopic && (
             <ModalContent>
               <ModalLogo src={HintLearnPg} alt="Hint Learn Page Logo" onClick={playOrRestartAudio} />
-
               <ModalTitle>{selectedTopic.name}</ModalTitle>
 
               <ModalRow>
-                {/* Box 1 - Tip Image */}
-                <TipJarWrapper onClick={() => {
-                  playChaChing();  // Play the cha-ching sound
-                  changeFact3();   // Change the fact in the jar
-                }}>
+                <TipJarWrapper onClick={() => { playChaChing(); changeFact3(); }}>
                   <TipImageStyled src={TipImage} alt="Tip Image" />
                   <TipMessage>Click the coin to add a tip to the tip jar...</TipMessage>
                 </TipJarWrapper>
 
-                {/* Box 2 - YouTube Video */}
                 <ModalParagraph>
                   {selectedTopic.name in videoUrls && (
                     <iframe
@@ -651,7 +675,6 @@ const LearnPage = () => {
                   )}
                 </ModalParagraph>
 
-                {/* Box 3 - Jar Image with Fact */}
                 <TipJarWrapper>
                   <JarImageStyled src={JarImage} alt="Jar Image" />
                   <FactText>{fact3}</FactText>
@@ -661,10 +684,10 @@ const LearnPage = () => {
               <ToggleSwitch>
                 <Switch
                   type="checkbox"
-                  checked={completed}
-                  onChange={toggleCompletion}
+                  checked={completedStatus[selectedTopic.name] || false}
+                  onChange={() => toggleCompletion(selectedTopic.name)}
                 />
-                <label>{completed ? 'Completed' : 'Did Not Complete'}</label>
+                <label>{completedStatus[selectedTopic.name] ? 'Completed' : 'Did Not Complete'}</label>
               </ToggleSwitch>
 
               <Button onClick={playGame}>Play Game</Button>
