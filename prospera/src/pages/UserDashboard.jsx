@@ -103,6 +103,8 @@ const DashboardWrapper = styled.div`
   font-family: 'Fredoka', sans-serif;
   max-width: 1200px;
   margin: 0 auto;
+  margin-top:150px;
+  margin-bottom:90px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
@@ -180,7 +182,7 @@ const ProfileMessage = styled.p`
 `;
 
 const ProfileInput = styled.input`
-  width: 80%;
+  width:19%;
   padding: 5px;
   margin-bottom: 15px;
   border: 2px solid #ccc;

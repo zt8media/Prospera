@@ -14,7 +14,7 @@ describe('Contact Form Validation', () => {
       cy.contains('Name is required').should('be.visible');
       cy.contains('Email is invalid').should('be.visible');
       cy.contains('Comment is required').should('be.visible');
-    });
+    }); 
   });
 
   describe('Contact Form Submission', () => {

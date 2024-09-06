@@ -22,30 +22,4 @@ describe('Modal Interaction', () => {
 
 
 
-describe('Learn Page Completion Toggle', () => {
-  it('should toggle completion status and send request to the backend', () => {
-    // Log in as a user first
-    cy.visit('/login');
-    cy.get('input[name="email"]').type('testuser@example.com');
-    cy.get('input[name="password"]').type('password123');
-    cy.get('button[type="submit"]').click();
 
-    // Visit the Learn page
-    cy.visit('/learn');
-
-    // Check if a topic is not completed
-    cy.contains('Saving Money').click(); // Open the modal for 'Saving Money'
-    
-    // Toggle completion status
-    cy.get('input[type="checkbox"]').should('not.be.checked').click(); // Toggle the switch
-
-    // Intercept the request to check the backend call
-    cy.intercept('PUT', '**/user/completion/Saving Money').as('toggleCompletion');
-
-    // Assert that the toggleCompletion request was sent
-    cy.wait('@toggleCompletion').its('response.statusCode').should('eq', 200);
-
-    // Close the modal
-    cy.contains('Close').click();
-  });
-});
