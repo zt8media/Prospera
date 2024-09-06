@@ -194,18 +194,7 @@ app.get("/admin/analytics", (req, res) => {
   });
 });
 
-
-// Centralized error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Something went wrong." });
-});
-
-// Start the server
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
+// Route for users to update their completion status in the frontend
 // Route to get user dashboard data (profile + completion status)
 
 app.get("/user/dashboard", (req, res) => {
@@ -231,8 +220,67 @@ app.get("/user/dashboard", (req, res) => {
           savingMoney: data[0].savingMoney,
           investing: data[0].investing,
           budgeting: data[0].budgeting,
-          spendingWisely: data[0].spendingWisely,
-        },
+          spendingWisely: data[0].spendingWisely
+        }
+      });
+    } else {
+      res.status(404).json({ message: "User not found." });
+    }
+  });
+});
+
+
+
+
+// Centralized error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong." });
+});
+
+// Start the server
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+//routes for user ddahsboard 
+// Route to update name and email
+app.put("/user/profile", (req, res) => {
+  const { userId, name, email } = req.body;
+
+  if (!userId || !name || !email) {
+    return res.status(400).json({ message: "User ID, name, and email are required." });
+  }
+
+  const sql = `UPDATE register SET name = ?, email = ? WHERE id = ?`;
+  connection.query(sql, [name, email, userId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: "Error updating user profile." });
+    }
+
+    res.json({ message: "Profile updated successfully." });
+  });
+});
+
+// Route to get user profile information
+app.get("/user/profile", (req, res) => {
+  const userId = req.query.userId;
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required." });
+  }
+
+  const sql = `SELECT name, email FROM register WHERE id = ?`;
+  connection.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Error retrieving user profile." });
+    }
+
+    if (results.length > 0) {
+      const user = results[0];
+      res.json({
+        name: user.name,
+        email: user.email
       });
     } else {
       res.status(404).json({ message: "User not found." });
