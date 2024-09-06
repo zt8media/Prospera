@@ -32,6 +32,18 @@ const UserDashboard = () => {
     const storedStatus = JSON.parse(localStorage.getItem('completedStatus')) || {};
     setCompletedStatus(storedStatus);
   }, []);
+  
+  const toggleCompletion = (topic) => {
+    const userId = localStorage.getItem('userId');
+    const updatedStatus = {
+      ...completedStatus,
+      [topic]: !completedStatus[topic],
+    };
+
+    setCompletedStatus(updatedStatus);
+    localStorage.setItem(`completedStatus_${userId}`, JSON.stringify(updatedStatus));
+  };
+
   const handleProfilePicture = (e) => {
     const file = e.target.files[0];
     const newProfilePicture = URL.createObjectURL(file);
@@ -42,7 +54,6 @@ const UserDashboard = () => {
       return updatedProfile;
     });
   };
-
 
   return (
     <DashboardWrapper>
@@ -61,7 +72,7 @@ const UserDashboard = () => {
           {topics.map((topic) => (
             <TopicColumn key={topic}>
               <ProgressText>{topic}</ProgressText>
-              <Circle completed={completedStatus[topic]} />
+              <Circle completed={completedStatus[topic]} onClick={() => toggleCompletion(topic)} />
             </TopicColumn>
           ))}
         </ProgressGrid>
@@ -81,6 +92,7 @@ const UserDashboard = () => {
 };
 
 export default UserDashboard;
+
 // Styled Components
 const DashboardWrapper = styled.div`
   display: flex;
