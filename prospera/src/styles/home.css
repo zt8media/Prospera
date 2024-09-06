@@ -9,6 +9,7 @@
     padding-bottom: 70px;
     margin-top:105px;
     width:100vw;
+    font-family: 'Fredoka';
 }
 
 
@@ -17,6 +18,7 @@
     flex-direction: column;
     width: 600px;
     align-items: center;
+    font-family: 'Fredoka';
 }
 
 .learn-more {
@@ -24,7 +26,7 @@
     color: white;
     border: none;
     font-weight: bold;
-    border-radius: 3%;
+    border-radius: 10px;
     font-size: 20px;
     padding: 25px;
     font-family: 'Fredoka';
@@ -32,6 +34,10 @@
     margin-top: 20px;
 }
 
+.learn-more:hover{
+    background-color:#618e67;
+    cursor: pointer;
+}
 .money {
     width: 400px;
     height: 300px;
@@ -48,6 +54,7 @@
     font-family: 'Didact Gothic';
     font-weight: bold;
     font-size: 50px;
+    font-family: 'Fredoka';
 }
 
 .activity-pig {
@@ -57,11 +64,13 @@
 .first-intro {
     font-size: 23px;
     font-family: 'Didact Gothic';
+    font-family: 'Fredoka';
 }
 
 .home-title {
     font-size: 50px;
     font-family: 'Didact Gothic';
+    font-family: 'Fredoka';
 }
 
 @media (max-width:600px) {
