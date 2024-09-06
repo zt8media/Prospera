@@ -62,6 +62,7 @@ app.post("/login", (req, res) => {
       const user = data[0];
       bcrypt.compare(password, user.password, function (err, result) {
         if (result) {
+          // User authenticated successfully
           res.status(200).json({
             message: "Login successful",
             user: { id: user.id, email: user.email, isAdmin: user.isAdmin },
@@ -111,16 +112,6 @@ app.post("/contact", (req, res) => {
 
 // Get route for register
 app.get("/register", (req, res) => {
-  connection.query("SELECT * FROM register", (err, results) => {
-    if (err) {
-      return res.status(500).send("Error retrieving data");
-    }
-    res.json(results);
-  });
-});
-
-// Get route for login
-app.get("/login", (req, res) => {
   connection.query("SELECT * FROM register", (err, results) => {
     if (err) {
       return res.status(500).send("Error retrieving data");
@@ -203,41 +194,6 @@ app.get("/admin/analytics", (req, res) => {
   });
 });
 
-// Route for users to update their completion status in the frontend
-app.put("/user/completion", (req, res) => {
-  const { userId, completion } = req.body;
-
-  if (!userId || completion === undefined) {
-    return res.status(400).json({ message: "User ID and completion status are required." });
-  }
-
-  const sql = `UPDATE register SET completion = ? WHERE id = ?`;
-  connection.query(sql, [completion, userId], function (err) {
-    if (err) {
-      res.status(500).json({ message: "Error updating completion status." });
-    } else {
-      res.json({ message: "Completion status updated successfully." });
-    }
-  });
-});
-
-// Route for users to get their profile details
-app.get("/user/profile", (req, res) => {
-  const userId = req.query.userId;
-
-  if (!userId) {
-    return res.status(400).json({ message: "User ID is required." });
-  }
-
-  const sql = `SELECT * FROM register WHERE id = ?`;
-  connection.query(sql, [userId], function (err, data) {
-    if (err) {
-      res.status(500).json({ message: "Error retrieving user profile." });
-    } else {
-      res.json(data[0]);
-    }
-  });
-});
 
 // Centralized error handling middleware
 app.use((err, req, res, next) => {
@@ -248,3 +204,38 @@ app.use((err, req, res, next) => {
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+// Route to get user dashboard data (profile + completion status)
+
+app.get("/user/dashboard", (req, res) => {
+  const userId = req.query.userId; // User's ID should be passed as a query parameter
+
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required." });
+  }
+
+  // Fetch user data (profile info + completion status)
+  const sql = `SELECT name, email, savingMoney, investing, budgeting, spendingWisely FROM register WHERE id = ?`;
+  connection.query(sql, [userId], (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: "Error retrieving user data." });
+    }
+
+    if (data.length > 0) {
+      // Return the user's dashboard data
+      res.json({
+        name: data[0].name,
+        email: data[0].email,
+        completionStatus: {
+          savingMoney: data[0].savingMoney,
+          investing: data[0].investing,
+          budgeting: data[0].budgeting,
+          spendingWisely: data[0].spendingWisely,
+        },
+      });
+    } else {
+      res.status(404).json({ message: "User not found." });
+    }
+  });
+});

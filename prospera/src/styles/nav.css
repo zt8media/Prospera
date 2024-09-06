@@ -18,6 +18,28 @@ nav.navbar {
     align-items: center;
     z-index: 100;
 }
+.nav-signout-btn {
+    background: none;
+    border: none;
+    color: black;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.nav-signout-btn:hover {
+    color: #87c38f; /* Hover color */
+    text-decoration: none; /* Remove underline on hover */
+}
+
+/* Mobile-specific styles for signout button */
+.navlinks-mobile .nav-signout-btn {
+    font-size: 18px;
+    color: white;
+}
 
 .nav-logo-container {
     display: flex;
@@ -70,7 +92,41 @@ nav.navbar {
     cursor: pointer;
     color: black;
 }
-
+/* Avatar styles */
+/* Avatar styles */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+    object-fit: cover; /* Ensures the image covers the avatar circle */
+  }
+  
+  .user-avatar:hover {
+    transform: scale(1.1);
+  }
+  
+  .user-avatar-icon {
+    font-size: 40px;
+    color: black;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .user-avatar-icon:hover {
+    transform: scale(1.1);
+  }
+  
+  .navlinks-mobile .user-avatar, 
+  .navlinks-mobile .user-avatar-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+  }
+  
 .navlinks-mobile {
     display: flex;
     flex-direction: column;

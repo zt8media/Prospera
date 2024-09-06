@@ -117,16 +117,19 @@ const ContactPageContainer = styled.main`
   font-family: 'Fredoka', sans-serif;
   height: 100vh;
 `;
-
 const ContactContent = styled.div`
   display: flex;
+  flex-direction: row;
   width: 100%;
   max-width: 1000px;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
 const ImageContainer = styled.div`
   flex: 1;
   display: flex;
@@ -135,6 +138,12 @@ const ImageContainer = styled.div`
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 12px;
+  }
 `;
 
 const StyledImage = styled.img`

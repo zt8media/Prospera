@@ -14,6 +14,7 @@ import AdminDashboard from './pages/Admin';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import PiggyChatbox from './components/chatbot.jsx';
+import UserDashboard from './pages/UserDashboard.jsx';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/login" element={<Login />} />
            <Route path="/Register" element={<Register />} />
             <Route path="/Admin" element={<AdminDashboard />} />
+            <Route path="/user/dashboard" element={<UserDashboard />} />
           
           {/* Individual game routes */}
           <Route path="/game/budgeting" element={<BudgetingGamePage />} />
