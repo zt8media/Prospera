@@ -7,7 +7,7 @@ import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId'); // Use userId instead of token
   const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
@@ -19,7 +19,7 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove token
+    localStorage.removeItem('userId'); // Remove userId instead of token
     navigate('/login'); // Navigate to login page
   };
 
@@ -34,11 +34,10 @@ const Navbar = () => {
         <li><Link to="/Learn" onClick={closeMobileMenu}>Learn</Link></li>
         <li><Link to="/About" onClick={closeMobileMenu}>About Us</Link></li>
         <li><Link to="/Contact" onClick={closeMobileMenu}>Contact</Link></li>
-        {!token ? (
+        {!userId ? (
           <li><Link to="/Login" onClick={closeMobileMenu}>Login</Link></li>
         ) : (
           <li><button onClick={handleLogout} className="nav-signout-btn">Sign Out</button></li>
-
         )}
       </ul>
       <div className="hamburger" onClick={toggleMobileMenu}>
