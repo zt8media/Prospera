@@ -44,17 +44,6 @@ const UserDashboard = () => {
     localStorage.setItem(`completedStatus_${userId}`, JSON.stringify(updatedStatus));
   };
 
-  const handleProfilePicture = (e) => {
-    const file = e.target.files[0];
-    const newProfilePicture = URL.createObjectURL(file);
-    setProfile((prevProfile) => {
-      const updatedProfile = { ...prevProfile, profilePicture: newProfilePicture };
-      // Save the updated profile in localStorage
-      localStorage.setItem('profile', JSON.stringify(updatedProfile));
-      return updatedProfile;
-    });
-  };
-
   return (
     <DashboardWrapper>
       {/* Profile Card Section
@@ -99,7 +88,7 @@ const DashboardWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #f9f9f9;
-  padding: 40px;
+  padding: 200px;
   font-family: 'Fredoka', sans-serif;
   max-width: 1200px;
   margin: 0 auto;
@@ -114,89 +103,6 @@ const DashboardWrapper = styled.div`
 
   @media (max-width: 480px) {
     padding: 15px;
-  }
-`;
-
-const ProfileCard = styled.div`
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 30px;
-  width: 100%;
-
-  @media (max-width: 768px) {
-    padding: 20px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 15px;
-  }
-`;
-
-const ProfileImage = styled.img`
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 20px;
-
-  @media (max-width: 480px) {
-    width: 140px;
-    height: 140px;
-  }
-`;
-
-const ProfileName = styled.h2`
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #333;
-
-  @media (max-width: 480px) {
-    font-size: 20px;
-  }
-`;
-
-const ProfileEmail = styled.p`
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #777;
-
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
-`;
-
-const ProfileMessage = styled.p`
-  font-size: 14px;
-  color: #777;
-  margin-bottom: 15px;
-
-  @media (max-width: 480px) {
-    font-size: 12px;
-  }
-`;
-
-const ProfileInput = styled.input`
-  width:19%;
-  padding: 5px;
-  margin-bottom: 15px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  font-family: 'Fredoka', sans-serif;
-
-  &:focus {
-    border-color: #76b07f;
-    outline: none;
-  }
-
-  @media (max-width: 480px) {
-    width: 100%;
   }
 `;
 

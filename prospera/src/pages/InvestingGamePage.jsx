@@ -121,7 +121,7 @@ const InvestingGamePage = () => {
       <Description>Learn about investing and make smart decisions while you play!</Description>
       <EmbeddedGame>
         <iframe
-          src="https://view.genially.com/66d5d1ab0c813a86294a8917"
+          src="https://view.genially.com/66db4bc02624d72419409dd7"
           title="Investing Game"
           allowFullScreen
           scrolling="yes"
@@ -132,3 +132,4 @@ const InvestingGamePage = () => {
 };
 
 export default InvestingGamePage;
+ 
