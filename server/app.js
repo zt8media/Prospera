@@ -46,7 +46,6 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  // Ensure email and password are provided
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required." });
   }
@@ -62,7 +61,6 @@ app.post("/login", (req, res) => {
       const user = data[0];
       bcrypt.compare(password, user.password, function (err, result) {
         if (result) {
-          // User authenticated successfully
           res.status(200).json({
             message: "Login successful",
             user: { id: user.id, email: user.email, isAdmin: user.isAdmin },
@@ -88,7 +86,7 @@ app.post("/forgot-password", (req, res) => {
     }
     if (data.length > 0) {
       const user = data[0];
-      // You can send an email to the user with a password reset link
+      // Here you can add email sending functionality to send a password reset link.
       res.status(200).json({ message: "Password reset link sent to email." });
     } else {
       res.status(400).json({ message: "Email not found." });
@@ -120,9 +118,9 @@ app.get("/register", (req, res) => {
   });
 });
 
-// Admin-only route to get all users (Added pagination)
+// Admin-only route to get all users 
 app.get("/admin/users", (req, res) => {
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 15 } = req.query; // You can adjust limit based on pagination
   const sql = `SELECT * FROM register LIMIT ? OFFSET ?`;
   connection.query(sql, [Number(limit), (Number(page) - 1) * Number(limit)], function (err, data) {
     if (err) {
@@ -166,35 +164,6 @@ app.delete("/admin/users/:id", (req, res) => {
   });
 });
 
-// Admin-only route for data analytics
-app.get("/admin/analytics", (req, res) => {
-  const sql = `SELECT savingMoney, investing, budgeting, spendingWisely FROM register`;
-  connection.query(sql, function (err, data) {
-    if (err) {
-      console.error("Error retrieving analytics:", err); // Log the error for debugging
-      return res.status(500).json({ message: "Error retrieving analytics." });
-    }
-
-    // Process the data to calculate the number of people who completed each task
-    const analytics = {
-      savingMoney: 0,
-      investing: 0,
-      budgeting: 0,
-      spendingWisely: 0,
-    };
-
-    data.forEach((row) => {
-      if (row.savingMoney) analytics.savingMoney += 1;
-      if (row.investing) analytics.investing += 1;
-      if (row.budgeting) analytics.budgeting += 1;
-      if (row.spendingWisely) analytics.spendingWisely += 1;
-    });
-
-    res.json(analytics);
-  });
-});
-
-
 // Centralized error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -207,15 +176,13 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
 // Route to get user dashboard data (profile + completion status)
-
 app.get("/user/dashboard", (req, res) => {
-  const userId = req.query.userId; // User's ID should be passed as a query parameter
+  const userId = req.query.userId; 
 
   if (!userId) {
     return res.status(400).json({ message: "User ID is required." });
   }
 
-  // Fetch user data (profile info + completion status)
   const sql = `SELECT name, email, savingMoney, investing, budgeting, spendingWisely FROM register WHERE id = ?`;
   connection.query(sql, [userId], (err, data) => {
     if (err) {
@@ -223,7 +190,6 @@ app.get("/user/dashboard", (req, res) => {
     }
 
     if (data.length > 0) {
-      // Return the user's dashboard data
       res.json({
         name: data[0].name,
         email: data[0].email,
