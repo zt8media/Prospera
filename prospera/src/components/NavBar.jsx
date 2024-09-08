@@ -46,7 +46,8 @@ const Navbar = () => {
           <li><Link to="/Login" onClick={closeMobileMenu}>Login</Link></li>
         ) : (
           <>
-            <li><button onClick={handleLogout} className="nav-signout-btn">Sign Out</button></li>
+            {/* Sign Out as a link */}
+            <li><a href="/" onClick={handleLogout} className="nav-signout-link">Sign Out</a></li>
             {/* Generic User Icon */}
             <li onClick={handleUserIconClick} className="user-avatar-container">
               <FontAwesomeIcon icon={faUserCircle} className="user-avatar-icon" />

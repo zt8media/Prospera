@@ -108,7 +108,7 @@ const facts = {
 
 const videoUrls = {
   'Saving Money': 'https://www.youtube.com/embed/v-mlEQ7KW5Q',
-  'Investing': 'https://www.youtube.com/embed/sMq69Q3fwGc',
+  'Investing': 'https://www.youtube.com/embed/6MsHNc7A_vY?si=PAv8oh6QuXMWKU6M',
   'Budgeting': 'https://www.youtube.com/embed/CbhjhWleKGE',
   'Spending Wisely': 'https://www.youtube.com/embed/aRcXutXvfmM',
 };

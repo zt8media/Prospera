@@ -94,14 +94,6 @@ const AdminDashboard = () => {
           </UserItem>
         ))}
       </UserList>
-
-      <SectionTitle>Analytics</SectionTitle>
-      <AnalyticsButton onClick={fetchAnalytics}>View Analytics</AnalyticsButton>
-      <AnalyticsList>
-        {analytics.map(item => (
-          <AnalyticsItem key={item.name}>{item.name}: {item.completion}% completed</AnalyticsItem>
-        ))}
-      </AnalyticsList>
     </DashboardContainer>
   );
 };
@@ -194,33 +186,4 @@ const DeleteButton = styled.button`
   &:hover {
     background-color: #b71c1c;
   }
-`;
-
-const AnalyticsButton = styled.button`
-  padding: 12px 20px;
-  background-color: #76b07f;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  font-family: 'Fredoka', sans-serif;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #5b9365;
-  }
-`;
-
-const AnalyticsList = styled.ul`
-  list-style: none;
-  padding: 0;
-`;
-
-const AnalyticsItem = styled.li`
-  padding: 10px;
-  background-color: #fff;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 `;
