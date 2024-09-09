@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import styled, { keyframes } from 'styled-components';
 import PigImage from '../media/1.png';
@@ -10,8 +10,8 @@ const PigJokesSection = styled.section`
   padding: 50px 0;
   text-align: center;
   margin-bottom: 0px;
-  border-top: 8px solid black; /* Add border to top */
-  border-bottom: 20px solid black; /* Add border to bottom */
+  border-top: 8px solid black; 
+  border-bottom: 20px solid black; 
 `;
 
 // Title for the Pig Jokes section
@@ -52,7 +52,7 @@ const PigImageStyled = styled.img`
 
 const ThoughtBubble = styled.div`
   position: absolute;
-  bottom: 300px; /* Raise the bubble higher */
+  top: -80px; 
   left: 50%;
   transform: translateX(-50%);
   background-color: #f5f5f5;
@@ -82,17 +82,52 @@ const JokeCounter = styled.p`
   margin-top: 20px;
 `;
 
+const AudioButtonWrapper = styled.div`
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HearJokeButton = styled.button`
+  background-color: #f06292;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ec407a;
+  }
+`;
+
 const PigJokes = () => {
   const [joke, setJoke] = useState('');
   const [showBubble, setShowBubble] = useState(false);
   const [jokeCount, setJokeCount] = useState(0);
   const [shouldBounce, setShouldBounce] = useState(false);
+  const audioRef = useRef(new Audio(ChaChingSound));
+  const [voices, setVoices] = useState([]);
+
+  // Fetch available voices
+  useEffect(() => {
+    const loadVoices = () => {
+      const availableVoices = window.speechSynthesis.getVoices();
+      setVoices(availableVoices);
+    };
+
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices(); // Load voices on component mount
+  }, []);
 
   const fetchJoke = async () => {
     try {
       const response = await axios.get('https://official-joke-api.appspot.com/jokes/random');
       setJoke(response.data.setup + ' ' + response.data.punchline);
-      setJokeCount(jokeCount + 1); // Increment the joke counter
+      setJokeCount(jokeCount + 1);
     } catch (error) {
       setJoke('Failed to fetch a joke.');
     }
@@ -103,17 +138,30 @@ const PigJokes = () => {
     setShowBubble(true);
     setShouldBounce(true);
 
-    const audio = new Audio(ChaChingSound);
-    audio.currentTime = 0;
-    audio.play();
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
 
     setTimeout(() => {
-      audio.pause();
+      audioRef.current.pause();
     }, 2000);
 
     setTimeout(() => {
       setShouldBounce(false);
-    }, 1000); // Reset bounce after animation
+    }, 1000);
+  };
+
+  const speakJoke = () => {
+    if (joke) {
+      const speech = new SpeechSynthesisUtterance(joke);
+      
+      // Select a specific voice (modify based on the desired voice)
+      const selectedVoice = voices.find(voice => voice.name === 'Google UK English Female');
+      if (selectedVoice) {
+        speech.voice = selectedVoice;
+      }
+
+      window.speechSynthesis.speak(speech);
+    }
   };
 
   return (
@@ -130,6 +178,9 @@ const PigJokes = () => {
           {joke}
         </ThoughtBubble>
         <JokeCounter>Jokes Displayed: {jokeCount}</JokeCounter>
+        <AudioButtonWrapper>
+          <HearJokeButton onClick={speakJoke}>Hear Joke</HearJokeButton>
+        </AudioButtonWrapper>
       </PigJokesWrapper>
     </PigJokesSection>
   );

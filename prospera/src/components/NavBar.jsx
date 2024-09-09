@@ -34,7 +34,10 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="nav-logo-container">
-        <img src={logo} alt="Prospera Logo" className="nav-logo" />
+        {/* Wrap the logo image with a Link to navigate to the home page */}
+        <Link to="/" onClick={closeMobileMenu}>
+          <img src={logo} alt="Prospera Logo" className="nav-logo" />
+        </Link>
         <span className="nav-title">Prospera</span>
       </div>
       <ul className={`navlinks ${isMobile ? 'navlinks-mobile' : ''}`}>
